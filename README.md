@@ -33,6 +33,13 @@ React + TypeScript + Vite + Tailwind CSS + Supabase. Installabile come app (PWA)
 
 ---
 
+## 1.1 Correzioni recenti
+- Risolto testo invisibile nel tema chiaro (card, interruttori, pannello di personalizzazione)
+- I campi numerici (proteine, carboidrati, grassi, peso, ecc.) ora accettano valori decimali con la virgola
+- Risolta la sovrapposizione dell'intestazione con la barra di stato del telefono nella PWA installata
+
+---
+
 ## 2. Setup Supabase
 
 1. Crea un progetto su [supabase.com](https://supabase.com)

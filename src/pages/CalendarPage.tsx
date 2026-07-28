@@ -25,14 +25,14 @@ export default function CalendarPage() {
 
   return (
     <div className="space-y-6 pb-4">
-      <h1 className="text-2xl font-bold">Calendario</h1>
+      <h1 className="text-2xl font-bold text-base-text">Calendario</h1>
 
       <div className="fd-card">
         <div className="flex items-center justify-between mb-4">
           <button onClick={() => setMonthDate((d) => subMonths(d, 1))} aria-label="Mese precedente" className="w-8 h-8 rounded-full bg-base-card2 flex items-center justify-center">
             <ChevronLeft size={16} />
           </button>
-          <h2 className="font-semibold text-[15px] capitalize">{format(monthDate, 'MMMM yyyy', { locale: it })}</h2>
+          <h2 className="font-semibold text-[15px] capitalize text-base-text">{format(monthDate, 'MMMM yyyy', { locale: it })}</h2>
           <button onClick={() => setMonthDate((d) => addMonths(d, 1))} aria-label="Mese successivo" className="w-8 h-8 rounded-full bg-base-card2 flex items-center justify-center">
             <ChevronRight size={16} />
           </button>
@@ -80,7 +80,7 @@ export default function CalendarPage() {
       {selected && (
         <div className="fd-card animate-fade-up">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-[15px] capitalize">{format(selected, "EEEE d MMMM", { locale: it })}</h3>
+            <h3 className="font-semibold text-[15px] capitalize text-base-text">{format(selected, "EEEE d MMMM", { locale: it })}</h3>
             <button onClick={() => navigate('/', { state: { date: format(selected, 'yyyy-MM-dd') } })} className="text-xs font-semibold text-stand">
               Apri giornata →
             </button>
@@ -109,7 +109,7 @@ function SummaryStat({ icon: Icon, label, value, color }: { icon: typeof Dumbbel
       </div>
       <div>
         <p className="text-[11px] text-base-muted">{label}</p>
-        <p className="text-sm font-semibold">{value}</p>
+        <p className="text-sm font-semibold text-base-text">{value}</p>
       </div>
     </div>
   )

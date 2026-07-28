@@ -18,7 +18,7 @@ export function ProgressCard({ icon: Icon, label, current, goal, unit, color }: 
         <Icon size={14} style={{ color }} />
         <p className="fd-label">{label}</p>
       </div>
-      <p className="text-xl font-bold tabular-nums mb-2">
+      <p className="text-xl font-bold tabular-nums mb-2 text-base-text">
         {formatNumber(current)} <span className="text-sm text-base-muted font-medium">/ {formatNumber(goal)} {unit}</span>
       </p>
       <div className="h-1.5 bg-base-card2 rounded-pill overflow-hidden">

@@ -13,7 +13,7 @@ export function EmptyState({ icon: Icon, title, description, action }: EmptyStat
       <div className="w-14 h-14 rounded-full bg-base-card2 flex items-center justify-center mb-4">
         <Icon size={24} className="text-base-muted" />
       </div>
-      <h3 className="font-semibold text-[15px] mb-1">{title}</h3>
+      <h3 className="font-semibold text-[15px] mb-1 text-base-text">{title}</h3>
       {description && <p className="text-sm text-base-muted max-w-xs">{description}</p>}
       {action && (
         <button onClick={action.onClick} className="mt-4 text-sm font-semibold text-stand">

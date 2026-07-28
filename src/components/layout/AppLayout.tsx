@@ -9,7 +9,7 @@ export function AppLayout() {
     <QuickAddProvider>
       <div className="min-h-screen bg-base-black flex">
         <Sidebar />
-        <main className="flex-1 min-w-0 pb-28 md:pb-10">
+        <main className="flex-1 min-w-0 pb-28 md:pb-10 pt-[env(safe-area-inset-top)]">
           <div className="max-w-5xl mx-auto px-4 md:px-8 py-6">
             <Outlet />
           </div>

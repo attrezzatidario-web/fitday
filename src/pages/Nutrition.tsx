@@ -46,7 +46,7 @@ export default function Nutrition() {
   return (
     <div className="space-y-6 pb-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Alimentazione</h1>
+        <h1 className="text-2xl font-bold text-base-text">Alimentazione</h1>
         <DateSelector date={selectedDate} onChange={setSelectedDate} />
       </div>
 
@@ -62,7 +62,7 @@ export default function Nutrition() {
 
       <div className="fd-card !py-3 flex items-center justify-between">
         <span className="text-sm text-base-muted">Calorie assunte oggi</span>
-        <span className="font-bold tabular-nums">{formatNumber(totals.calories)} / {formatNumber(CALORIES_GOAL)} kcal</span>
+        <span className="font-bold tabular-nums text-base-text">{formatNumber(totals.calories)} / {formatNumber(CALORIES_GOAL)} kcal</span>
       </div>
 
       {/* PASTI */}
@@ -76,7 +76,7 @@ export default function Nutrition() {
             return (
               <div key={meal.value}>
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold text-[14px]">{meal.label}</h3>
+                  <h3 className="font-semibold text-[14px] text-base-text">{meal.label}</h3>
                   <div className="flex items-center gap-2">
                     {mealEntries.length > 0 && <span className="text-xs text-base-muted">{Math.round(mealCalories)} kcal</span>}
                     <button
@@ -139,7 +139,7 @@ function MacroStat({ label, value, color }: { label: string; value: number; colo
         <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
         <span className="text-[11px] text-base-muted">{label}</span>
       </div>
-      <p className="font-bold tabular-nums">{formatNumber(value)}g</p>
+      <p className="font-bold tabular-nums text-base-text">{formatNumber(value)}g</p>
     </div>
   )
 }
@@ -148,7 +148,7 @@ function FoodRow({ entry, onDelete }: { entry: FoodEntry; onDelete: () => void }
   return (
     <div className="fd-card !py-3 flex items-center gap-3">
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">{entry.food_name}</p>
+        <p className="text-sm font-medium truncate text-base-text">{entry.food_name}</p>
         <p className="text-xs text-base-muted">
           {formatNumber(entry.quantity)} {entry.unit} · {Math.round(entry.calories)} kcal
         </p>
@@ -225,41 +225,41 @@ function QuickFoodForm({ onSubmit }: { onSubmit: (payload: { food_name: string; 
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="fq">Quantità</label>
           <div className="flex gap-2">
-            <input id="fq" type="number" inputMode="decimal" className="fd-input flex-1" value={quantity} onChange={(e) => setQuantity(e.target.value)} required min={1} />
+            <input id="fq" type="number" step="any" inputMode="decimal" className="fd-input flex-1" value={quantity} onChange={(e) => setQuantity(e.target.value)} required min={1} />
             <input aria-label="Unità" className="fd-input w-16 text-center px-1" value={unit} onChange={(e) => setUnit(e.target.value)} />
           </div>
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="fc">Calorie (kcal)</label>
-          <input id="fc" type="number" inputMode="decimal" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} required min={0} />
+          <input id="fc" type="number" step="any" inputMode="decimal" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} required min={0} />
         </div>
       </div>
       <div className="grid grid-cols-3 gap-3">
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="fp">Prot. (g)</label>
-          <input id="fp" type="number" inputMode="decimal" className="fd-input" value={protein} onChange={(e) => setProtein(e.target.value)} min={0} />
+          <input id="fp" type="number" step="any" inputMode="decimal" className="fd-input" value={protein} onChange={(e) => setProtein(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="fcarb">Carbo (g)</label>
-          <input id="fcarb" type="number" inputMode="decimal" className="fd-input" value={carbs} onChange={(e) => setCarbs(e.target.value)} min={0} />
+          <input id="fcarb" type="number" step="any" inputMode="decimal" className="fd-input" value={carbs} onChange={(e) => setCarbs(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="ff">Grassi (g)</label>
-          <input id="ff" type="number" inputMode="decimal" className="fd-input" value={fat} onChange={(e) => setFat(e.target.value)} min={0} />
+          <input id="ff" type="number" step="any" inputMode="decimal" className="fd-input" value={fat} onChange={(e) => setFat(e.target.value)} min={0} />
         </div>
       </div>
       <div className="grid grid-cols-3 gap-3">
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="ffib">Fibre (g)</label>
-          <input id="ffib" type="number" inputMode="decimal" className="fd-input" value={fiber} onChange={(e) => setFiber(e.target.value)} min={0} />
+          <input id="ffib" type="number" step="any" inputMode="decimal" className="fd-input" value={fiber} onChange={(e) => setFiber(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="fsug">Zuccheri (g)</label>
-          <input id="fsug" type="number" inputMode="decimal" className="fd-input" value={sugar} onChange={(e) => setSugar(e.target.value)} min={0} />
+          <input id="fsug" type="number" step="any" inputMode="decimal" className="fd-input" value={sugar} onChange={(e) => setSugar(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="fsalt">Sale (g)</label>
-          <input id="fsalt" type="number" inputMode="decimal" className="fd-input" value={salt} onChange={(e) => setSalt(e.target.value)} min={0} />
+          <input id="fsalt" type="number" step="any" inputMode="decimal" className="fd-input" value={salt} onChange={(e) => setSalt(e.target.value)} min={0} />
         </div>
       </div>
       <button type="submit" disabled={!valid || submitting} className="fd-btn-primary">
@@ -301,7 +301,7 @@ function CalorieRing({ consumed, goal, size = 128 }: { consumed: number; goal: n
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-xl font-bold tabular-nums">{formatNumber(remaining)}</span>
+        <span className="text-xl font-bold tabular-nums text-base-text">{formatNumber(remaining)}</span>
         <span className="text-[10px] text-base-muted text-center px-2">kcal rimanenti</span>
       </div>
     </div>

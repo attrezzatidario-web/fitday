@@ -51,20 +51,20 @@ export default function Profile() {
 
   return (
     <div className="space-y-6 pb-4 max-w-lg">
-      <h1 className="text-2xl font-bold">Profilo</h1>
+      <h1 className="text-2xl font-bold text-base-text">Profilo</h1>
 
       <div className="fd-card flex items-center gap-4">
         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-steps to-stand flex items-center justify-center text-xl font-bold shrink-0 text-base-invertfg">
           {profile?.full_name?.[0]?.toUpperCase() ?? <UserIcon size={22} />}
         </div>
         <div>
-          <p className="font-semibold">{profile?.full_name || 'Utente FitDay'}</p>
+          <p className="font-semibold text-base-text">{profile?.full_name || 'Utente FitDay'}</p>
           <p className="text-sm text-base-muted">{user?.email}</p>
         </div>
       </div>
 
       <div className="fd-card space-y-4">
-        <h2 className="font-semibold text-[15px]">Dati personali</h2>
+        <h2 className="font-semibold text-[15px] text-base-text">Dati personali</h2>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="name">Nome</label>
           <input id="name" className="fd-input" value={fullName} onChange={(e) => setFullName(e.target.value)} />
@@ -72,21 +72,21 @@ export default function Profile() {
         <div className="grid grid-cols-3 gap-3">
           <div>
             <label className="fd-label mb-1.5 block" htmlFor="height">Altezza (cm)</label>
-            <input id="height" type="number" className="fd-input" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} />
+            <input id="height" type="number" step="any" className="fd-input" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} />
           </div>
           <div>
             <label className="fd-label mb-1.5 block" htmlFor="cw">Peso (kg)</label>
-            <input id="cw" type="number" inputMode="decimal" className="fd-input" value={currentWeight} onChange={(e) => setCurrentWeight(e.target.value)} />
+            <input id="cw" type="number" step="any" inputMode="decimal" className="fd-input" value={currentWeight} onChange={(e) => setCurrentWeight(e.target.value)} />
           </div>
           <div>
             <label className="fd-label mb-1.5 block" htmlFor="tw">Obiettivo (kg)</label>
-            <input id="tw" type="number" inputMode="decimal" className="fd-input" value={targetWeight} onChange={(e) => setTargetWeight(e.target.value)} />
+            <input id="tw" type="number" step="any" inputMode="decimal" className="fd-input" value={targetWeight} onChange={(e) => setTargetWeight(e.target.value)} />
           </div>
         </div>
       </div>
 
       <div className="fd-card space-y-4">
-        <h2 className="font-semibold text-[15px]">Obiettivo e attività</h2>
+        <h2 className="font-semibold text-[15px] text-base-text">Obiettivo e attività</h2>
         <div>
           <label className="fd-label mb-1.5 block">Livello di attività</label>
           <select className="fd-input" value={activityLevel} onChange={(e) => setActivityLevel(e.target.value as ActivityLevel)}>
@@ -123,7 +123,7 @@ export default function Profile() {
             className={`w-full flex items-center gap-3 px-4 py-3.5 text-left ${i !== MORE_LINKS.length - 1 ? 'border-b border-white/[0.06]' : ''}`}
           >
             <link.icon size={16} className="text-base-muted" />
-            <span className="text-sm flex-1">{link.label}</span>
+            <span className="text-sm flex-1 text-base-text">{link.label}</span>
             <ChevronRight size={15} className="text-base-muted" />
           </button>
         ))}

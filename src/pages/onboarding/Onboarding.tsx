@@ -119,7 +119,7 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="min-h-screen bg-base-black px-6 py-8 flex flex-col">
+    <div className="min-h-screen bg-base-black px-6 py-8 pt-[calc(env(safe-area-inset-top)+2rem)] flex flex-col">
       <div className="max-w-sm w-full mx-auto flex-1 flex flex-col">
         <div className="flex items-center gap-3 mb-8">
           {step > 0 && (
@@ -134,7 +134,7 @@ export default function Onboarding() {
           </div>
         </div>
 
-        <h1 className="text-xl font-bold mb-1">{STEPS[step]}</h1>
+        <h1 className="text-xl font-bold mb-1 text-base-text">{STEPS[step]}</h1>
         <p className="text-sm text-base-muted mb-6">
           {step === 0 && 'Raccontaci qualcosa di te'}
           {step === 1 && 'Dati facoltativi, modificabili in ogni momento'}
@@ -182,16 +182,16 @@ export default function Onboarding() {
               </div>
               <div>
                 <label className="fd-label mb-1.5 block" htmlFor="height">Altezza (cm)</label>
-                <input id="height" type="number" inputMode="decimal" className="fd-input" value={data.heightCm} onChange={(e) => set('heightCm', e.target.value)} placeholder="Es. 175" />
+                <input id="height" type="number" step="any" inputMode="decimal" className="fd-input" value={data.heightCm} onChange={(e) => set('heightCm', e.target.value)} placeholder="Es. 175" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="fd-label mb-1.5 block" htmlFor="curWeight">Peso attuale (kg)</label>
-                  <input id="curWeight" type="number" inputMode="decimal" className="fd-input" value={data.currentWeightKg} onChange={(e) => set('currentWeightKg', e.target.value)} placeholder="Es. 70" />
+                  <input id="curWeight" type="number" step="any" inputMode="decimal" className="fd-input" value={data.currentWeightKg} onChange={(e) => set('currentWeightKg', e.target.value)} placeholder="Es. 70" />
                 </div>
                 <div>
                   <label className="fd-label mb-1.5 block" htmlFor="targetWeight">Peso obiettivo (kg)</label>
-                  <input id="targetWeight" type="number" inputMode="decimal" className="fd-input" value={data.targetWeightKg} onChange={(e) => set('targetWeightKg', e.target.value)} placeholder="Es. 68" />
+                  <input id="targetWeight" type="number" step="any" inputMode="decimal" className="fd-input" value={data.targetWeightKg} onChange={(e) => set('targetWeightKg', e.target.value)} placeholder="Es. 68" />
                 </div>
               </div>
             </>
@@ -248,27 +248,27 @@ export default function Onboarding() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="fd-label mb-1.5 block" htmlFor="calGoal">Calorie (kcal)</label>
-                  <input id="calGoal" type="number" className="fd-input" value={data.caloriesGoal} onChange={(e) => set('caloriesGoal', e.target.value)} />
+                  <input id="calGoal" type="number" step="any" className="fd-input" value={data.caloriesGoal} onChange={(e) => set('caloriesGoal', e.target.value)} />
                 </div>
                 <div>
                   <label className="fd-label mb-1.5 block" htmlFor="stepsGoal">Passi</label>
-                  <input id="stepsGoal" type="number" className="fd-input" value={data.stepsGoal} onChange={(e) => set('stepsGoal', e.target.value)} />
+                  <input id="stepsGoal" type="number" step="any" className="fd-input" value={data.stepsGoal} onChange={(e) => set('stepsGoal', e.target.value)} />
                 </div>
                 <div>
                   <label className="fd-label mb-1.5 block" htmlFor="exGoal">Esercizio (min)</label>
-                  <input id="exGoal" type="number" className="fd-input" value={data.exerciseGoal} onChange={(e) => set('exerciseGoal', e.target.value)} />
+                  <input id="exGoal" type="number" step="any" className="fd-input" value={data.exerciseGoal} onChange={(e) => set('exerciseGoal', e.target.value)} />
                 </div>
                 <div>
                   <label className="fd-label mb-1.5 block" htmlFor="standGoal">In piedi (ore)</label>
-                  <input id="standGoal" type="number" className="fd-input" value={data.standGoal} onChange={(e) => set('standGoal', e.target.value)} />
+                  <input id="standGoal" type="number" step="any" className="fd-input" value={data.standGoal} onChange={(e) => set('standGoal', e.target.value)} />
                 </div>
                 <div>
                   <label className="fd-label mb-1.5 block" htmlFor="waterGoal">Acqua (ml)</label>
-                  <input id="waterGoal" type="number" className="fd-input" value={data.waterGoal} onChange={(e) => set('waterGoal', e.target.value)} />
+                  <input id="waterGoal" type="number" step="any" className="fd-input" value={data.waterGoal} onChange={(e) => set('waterGoal', e.target.value)} />
                 </div>
                 <div>
                   <label className="fd-label mb-1.5 block" htmlFor="sleepGoal">Sonno (ore)</label>
-                  <input id="sleepGoal" type="number" className="fd-input" value={data.sleepGoal} onChange={(e) => set('sleepGoal', e.target.value)} />
+                  <input id="sleepGoal" type="number" step="any" className="fd-input" value={data.sleepGoal} onChange={(e) => set('sleepGoal', e.target.value)} />
                 </div>
               </div>
             </>

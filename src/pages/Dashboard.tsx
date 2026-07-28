@@ -94,7 +94,7 @@ export default function Dashboard() {
       {/* HEADER */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-2xl font-bold">
+          <p className="text-2xl font-bold text-base-text">
             {greetingForHour(new Date().getHours())}
             {profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}
           </p>
@@ -135,7 +135,7 @@ export default function Dashboard() {
       {/* METRIC GRID */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="font-semibold text-[15px]">Le tue metriche</h2>
+          <h2 className="font-semibold text-[15px] text-base-text">Le tue metriche</h2>
           <button
             onClick={() => setCustomizeOpen(true)}
             className="flex items-center gap-1.5 text-xs font-medium text-base-muted bg-base-card2 rounded-full px-3 py-1.5"
@@ -156,7 +156,7 @@ export default function Dashboard() {
 
       {/* TIMELINE */}
       <div>
-        <h2 className="font-semibold text-[15px] mb-3">Cronologia giornaliera</h2>
+        <h2 className="font-semibold text-[15px] mb-3 text-base-text">Cronologia giornaliera</h2>
         {isLoading ? (
           <div className="space-y-2">
             <CardSkeleton />
@@ -173,7 +173,7 @@ export default function Dashboard() {
         <div className="space-y-1">
           {ALL_DASHBOARD_WIDGETS.map((w) => (
             <label key={w.key} className="flex items-center justify-between py-2.5 cursor-pointer">
-              <span className="text-sm">{w.label}</span>
+              <span className="text-sm text-base-text">{w.label}</span>
               <button
                 type="button"
                 role="switch"
@@ -198,7 +198,7 @@ function RingRow({ label, color, value, goal, unit }: { label: string; color: st
         <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
         <span className="text-sm font-medium text-base-text/80">{label}</span>
       </div>
-      <span className="text-sm font-bold tabular-nums" style={{ color }}>
+      <span className="text-sm font-bold tabular-nums text-base-text" style={{ color }}>
         {formatNumber(value)}/{formatNumber(goal)} <span className="text-base-muted font-medium">{unit}</span>
       </span>
     </div>

@@ -103,7 +103,7 @@ export function QuickAddButton() {
               <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: `${opt.color}26` }}>
                 <opt.icon size={15} style={{ color: opt.color }} />
               </div>
-              <span className="text-[13px] font-medium text-left leading-tight">{opt.label}</span>
+              <span className="text-[13px] font-medium text-left leading-tight text-base-text">{opt.label}</span>
             </button>
           ))}
         </div>
@@ -132,7 +132,7 @@ export function QuickAddButton() {
               className="fd-card !p-4 flex flex-col items-center gap-1 active:scale-95 transition"
             >
               <Droplets size={18} className="text-stand" />
-              <span className="font-bold text-lg">{ml}</span>
+              <span className="font-bold text-lg text-base-text">{ml}</span>
               <span className="text-[11px] text-base-muted">ml</span>
             </button>
           ))}
@@ -219,7 +219,7 @@ export function QuickAddButton() {
                   >
                     {done && <Check size={14} className="text-base-invertfg" strokeWidth={3} />}
                   </div>
-                  <span className="text-sm font-medium">{h.name}</span>
+                  <span className="text-sm font-medium text-base-text">{h.name}</span>
                 </button>
               )
             })}
@@ -313,41 +313,41 @@ function MealForm({ onSubmit }: { onSubmit: (payload: { meal_type: MealType; foo
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="quantity">Quantità</label>
           <div className="flex gap-2">
-            <input id="quantity" type="number" inputMode="decimal" className="fd-input flex-1" value={quantity} onChange={(e) => setQuantity(e.target.value)} required min={1} />
+            <input id="quantity" type="number" step="any" inputMode="decimal" className="fd-input flex-1" value={quantity} onChange={(e) => setQuantity(e.target.value)} required min={1} />
             <input aria-label="Unità" className="fd-input w-16 text-center px-1" value={unit} onChange={(e) => setUnit(e.target.value)} />
           </div>
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="calories">Calorie (kcal)</label>
-          <input id="calories" type="number" inputMode="decimal" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} required min={0} />
+          <input id="calories" type="number" step="any" inputMode="decimal" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} required min={0} />
         </div>
       </div>
       <div className="grid grid-cols-3 gap-3">
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="protein">Proteine (g)</label>
-          <input id="protein" type="number" inputMode="decimal" className="fd-input" value={protein} onChange={(e) => setProtein(e.target.value)} min={0} />
+          <input id="protein" type="number" step="any" inputMode="decimal" className="fd-input" value={protein} onChange={(e) => setProtein(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="carbs">Carbo (g)</label>
-          <input id="carbs" type="number" inputMode="decimal" className="fd-input" value={carbs} onChange={(e) => setCarbs(e.target.value)} min={0} />
+          <input id="carbs" type="number" step="any" inputMode="decimal" className="fd-input" value={carbs} onChange={(e) => setCarbs(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="fat">Grassi (g)</label>
-          <input id="fat" type="number" inputMode="decimal" className="fd-input" value={fat} onChange={(e) => setFat(e.target.value)} min={0} />
+          <input id="fat" type="number" step="any" inputMode="decimal" className="fd-input" value={fat} onChange={(e) => setFat(e.target.value)} min={0} />
         </div>
       </div>
       <div className="grid grid-cols-3 gap-3">
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="fiber">Fibre (g)</label>
-          <input id="fiber" type="number" inputMode="decimal" className="fd-input" value={fiber} onChange={(e) => setFiber(e.target.value)} min={0} />
+          <input id="fiber" type="number" step="any" inputMode="decimal" className="fd-input" value={fiber} onChange={(e) => setFiber(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="sugar">Zuccheri (g)</label>
-          <input id="sugar" type="number" inputMode="decimal" className="fd-input" value={sugar} onChange={(e) => setSugar(e.target.value)} min={0} />
+          <input id="sugar" type="number" step="any" inputMode="decimal" className="fd-input" value={sugar} onChange={(e) => setSugar(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="salt">Sale (g)</label>
-          <input id="salt" type="number" inputMode="decimal" className="fd-input" value={salt} onChange={(e) => setSalt(e.target.value)} min={0} />
+          <input id="salt" type="number" step="any" inputMode="decimal" className="fd-input" value={salt} onChange={(e) => setSalt(e.target.value)} min={0} />
         </div>
       </div>
       <button type="submit" disabled={!valid || submitting} className="fd-btn-primary">
@@ -401,16 +401,16 @@ function WorkoutForm({ onSubmit }: { onSubmit: (payload: { name: string; workout
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="duration">Durata (min)</label>
-          <input id="duration" type="number" inputMode="numeric" className="fd-input" value={duration} onChange={(e) => setDuration(e.target.value)} required min={1} />
+          <input id="duration" type="number" step="any" inputMode="numeric" className="fd-input" value={duration} onChange={(e) => setDuration(e.target.value)} required min={1} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="w-calories">Calorie (kcal)</label>
-          <input id="w-calories" type="number" inputMode="decimal" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} min={0} />
+          <input id="w-calories" type="number" step="any" inputMode="decimal" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} min={0} />
         </div>
       </div>
       <div>
         <label className="fd-label mb-1.5 block" htmlFor="distance">Distanza (km, facoltativo)</label>
-        <input id="distance" type="number" inputMode="decimal" className="fd-input" value={distance} onChange={(e) => setDistance(e.target.value)} min={0} />
+        <input id="distance" type="number" step="any" inputMode="decimal" className="fd-input" value={distance} onChange={(e) => setDistance(e.target.value)} min={0} />
       </div>
       <div>
         <label className="fd-label mb-1.5 block">Percezione dello sforzo: {effort}/10</label>

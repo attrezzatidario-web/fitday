@@ -47,10 +47,10 @@ export default function Settings() {
 
   return (
     <div className="space-y-6 pb-4 max-w-lg">
-      <h1 className="text-2xl font-bold">Impostazioni</h1>
+      <h1 className="text-2xl font-bold text-base-text">Impostazioni</h1>
 
       <div className="fd-card">
-        <h2 className="font-semibold text-[15px] mb-3">Aspetto</h2>
+        <h2 className="font-semibold text-[15px] mb-3 text-base-text">Aspetto</h2>
         <div className="grid grid-cols-3 gap-2">
           {THEME_OPTIONS.map((opt) => (
             <button
@@ -68,7 +68,7 @@ export default function Settings() {
       </div>
 
       <div className="fd-card space-y-1">
-        <h2 className="font-semibold text-[15px] mb-3">Notifiche</h2>
+        <h2 className="font-semibold text-[15px] mb-3 text-base-text">Notifiche</h2>
         <ToggleRow icon={Bell} label="Notifiche abilitate" checked={settings.notifications_enabled} onChange={() => toggle('notifications_enabled')} />
         <ToggleRow icon={Droplets} label="Promemoria acqua" checked={settings.water_reminder_enabled} onChange={() => toggle('water_reminder_enabled')} />
         <ToggleRow icon={Dumbbell} label="Promemoria allenamento" checked={settings.workout_reminder_enabled} onChange={() => toggle('workout_reminder_enabled')} />
@@ -76,7 +76,7 @@ export default function Settings() {
       </div>
 
       <div className="fd-card">
-        <h2 className="font-semibold text-[15px] mb-3">Dati</h2>
+        <h2 className="font-semibold text-[15px] mb-3 text-base-text">Dati</h2>
         <button onClick={handleExport} className="fd-btn-ghost flex items-center justify-center gap-2">
           <Download size={16} />
           Esporta i miei dati (JSON)
@@ -91,7 +91,7 @@ function ToggleRow({ icon: Icon, label, checked, onChange }: { icon: typeof Bell
     <div className="flex items-center justify-between py-2.5">
       <div className="flex items-center gap-2.5">
         <Icon size={16} className="text-base-muted" />
-        <span className="text-sm">{label}</span>
+        <span className="text-sm text-base-text">{label}</span>
       </div>
       <button
         onClick={onChange}

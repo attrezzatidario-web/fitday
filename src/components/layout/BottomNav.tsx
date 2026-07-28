@@ -11,11 +11,11 @@ export function BottomNav() {
       <div className="flex items-center justify-around px-1 py-2">
         <NavLink to="/" end className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
           <Home size={21} strokeWidth={2.2} />
-          <span className="text-[10px] font-medium">Home</span>
+          <span className="text-[10px] font-medium text-base-text">Home</span>
         </NavLink>
         <NavLink to="/activity" className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
           <Activity size={21} strokeWidth={2.2} />
-          <span className="text-[10px] font-medium">Attività</span>
+          <span className="text-[10px] font-medium text-base-text">Attività</span>
         </NavLink>
 
         <button onClick={openMenu} aria-label="Aggiungi" className="flex flex-col items-center gap-1 -mt-5">
@@ -27,11 +27,11 @@ export function BottomNav() {
 
         <NavLink to="/progress" className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
           <TrendingUp size={21} strokeWidth={2.2} />
-          <span className="text-[10px] font-medium">Progressi</span>
+          <span className="text-[10px] font-medium text-base-text">Progressi</span>
         </NavLink>
         <NavLink to="/profile" className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
           <User size={21} strokeWidth={2.2} />
-          <span className="text-[10px] font-medium">Profilo</span>
+          <span className="text-[10px] font-medium text-base-text">Profilo</span>
         </NavLink>
       </div>
     </nav>

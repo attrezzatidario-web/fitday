@@ -49,7 +49,7 @@ export default function Progress() {
 
   return (
     <div className="space-y-6 pb-4">
-      <h1 className="text-2xl font-bold">Progressi</h1>
+      <h1 className="text-2xl font-bold text-base-text">Progressi</h1>
 
       <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 md:mx-0 md:px-0">
         {PERIODS.map((p) => (
@@ -71,7 +71,7 @@ export default function Progress() {
       </div>
 
       <div className="fd-card">
-        <h2 className="font-semibold text-[15px] mb-4 flex items-center gap-2"><Scale size={15} className="text-steps" />Andamento peso</h2>
+        <h2 className="font-semibold text-[15px] mb-4 flex items-center gap-2 text-base-text"><Scale size={15} className="text-steps" />Andamento peso</h2>
         {measurementsLoading ? (
           <div className="h-48 bg-base-card2 rounded-xl animate-pulse" />
         ) : weightData.length < 2 ? (
@@ -90,7 +90,7 @@ export default function Progress() {
       </div>
 
       <div className="fd-card">
-        <h2 className="font-semibold text-[15px] mb-4">Passi nel periodo</h2>
+        <h2 className="font-semibold text-[15px] mb-4 text-base-text">Passi nel periodo</h2>
         {historyLoading ? (
           <div className="h-48 bg-base-card2 rounded-xl animate-pulse" />
         ) : activityChartData.length === 0 ? (

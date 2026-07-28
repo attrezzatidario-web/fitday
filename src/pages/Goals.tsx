@@ -28,7 +28,7 @@ export default function Goals() {
   if (loading) {
     return (
       <div className="space-y-6 pb-4">
-        <h1 className="text-2xl font-bold">Obiettivi</h1>
+        <h1 className="text-2xl font-bold text-base-text">Obiettivi</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={i} />)}
         </div>
@@ -40,7 +40,7 @@ export default function Goals() {
     <div className="space-y-6 pb-4">
       <div className="flex items-center gap-2">
         <Target size={20} className="text-exercise" />
-        <h1 className="text-2xl font-bold">Obiettivi</h1>
+        <h1 className="text-2xl font-bold text-base-text">Obiettivi</h1>
       </div>
       <p className="text-sm text-base-muted -mt-4">Modifica i tuoi traguardi giornalieri e settimanali. Le modifiche si applicano da subito.</p>
 
@@ -72,11 +72,11 @@ function GoalRow({ label, unit, color, currentValue, onSave }: { label: string; 
     <div className="fd-card">
       <div className="flex items-center gap-2 mb-2.5">
         <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-        <p className="text-sm font-medium">{label}</p>
+        <p className="text-sm font-medium text-base-text">{label}</p>
       </div>
       <div className="flex items-center gap-2">
         <input
-          type="number"
+          type="number" step="any"
           inputMode="decimal"
           className="fd-input flex-1"
           value={value}

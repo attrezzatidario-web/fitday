@@ -32,7 +32,7 @@ export default function Habits() {
   return (
     <div className="space-y-6 pb-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Abitudini</h1>
+        <h1 className="text-2xl font-bold text-base-text">Abitudini</h1>
         <button onClick={() => setFormOpen(true)} className="w-9 h-9 rounded-full bg-base-invert text-base-invertfg flex items-center justify-center">
           <Plus size={17} />
         </button>
@@ -41,7 +41,7 @@ export default function Habits() {
       {habits.length > 0 && (
         <div className="fd-card !py-3 flex items-center justify-between">
           <span className="text-sm text-base-muted">Completate oggi</span>
-          <span className="font-bold">{completedCount} / {habits.length}</span>
+          <span className="font-bold text-base-text">{completedCount} / {habits.length}</span>
         </div>
       )}
 
@@ -64,7 +64,7 @@ export default function Habits() {
                   {done && <Check size={18} className="text-base-invertfg" strokeWidth={3} />}
                 </button>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold truncate">{habit.name}</p>
+                  <p className="text-sm font-semibold truncate text-base-text">{habit.name}</p>
                   <div className="flex items-center gap-1 text-xs text-base-muted mt-0.5">
                     <Flame size={11} className="text-move" />
                     {habit.current_streak} giorni di fila · record {habit.best_streak}

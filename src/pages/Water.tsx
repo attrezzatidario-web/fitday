@@ -38,7 +38,7 @@ export default function Water() {
   return (
     <div className="space-y-6 pb-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Acqua</h1>
+        <h1 className="text-2xl font-bold text-base-text">Acqua</h1>
         <DateSelector date={selectedDate} onChange={setSelectedDate} />
       </div>
 
@@ -55,7 +55,7 @@ export default function Water() {
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <Droplets size={22} className="text-stand mb-1" />
-            <span className="text-2xl font-bold tabular-nums">{formatNumber(totalMl)}</span>
+            <span className="text-2xl font-bold tabular-nums text-base-text">{formatNumber(totalMl)}</span>
             <span className="text-xs text-base-muted">ml / {formatNumber(DAILY_GOAL_ML)} ml</span>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function Water() {
           {QUICK_AMOUNTS.map((ml) => (
             <button key={ml} onClick={() => handleAdd(ml)} className="fd-card !p-4 flex flex-col items-center gap-1 active:scale-95 transition">
               <Droplets size={16} className="text-stand" />
-              <span className="font-bold">{ml}</span>
+              <span className="font-bold text-base-text">{ml}</span>
               <span className="text-[10px] text-base-muted">ml</span>
             </button>
           ))}
@@ -77,7 +77,7 @@ export default function Water() {
 
       {chartData.length > 0 && (
         <div className="fd-card">
-          <h2 className="font-semibold text-[15px] mb-4">Andamento per orario</h2>
+          <h2 className="font-semibold text-[15px] mb-4 text-base-text">Andamento per orario</h2>
           <ResponsiveContainer width="100%" height={160}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#2C2C2E" vertical={false} />
@@ -103,7 +103,7 @@ export default function Water() {
                   <Droplets size={14} className="text-stand" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{e.amount_ml} ml</p>
+                  <p className="text-sm font-medium text-base-text">{e.amount_ml} ml</p>
                   <p className="text-xs text-base-muted">{format(new Date(e.logged_at), 'HH:mm')}</p>
                 </div>
                 <button onClick={() => handleDelete(e.id)} aria-label="Elimina" className="text-base-muted hover:text-move p-1">

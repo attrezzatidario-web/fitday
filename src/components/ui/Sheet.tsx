@@ -33,7 +33,7 @@ export function Sheet({ open, onClose, title, children }: SheetProps) {
       >
         <div className="sticky top-0 bg-base-surface md:bg-base-card px-5 pt-4 pb-3 flex items-center justify-between border-b border-white/[0.06] z-10">
           <div className="w-8 h-1 rounded-full bg-base-border absolute left-1/2 -translate-x-1/2 top-2 md:hidden" />
-          <h2 className="font-semibold text-[16px] mt-2 md:mt-0">{title}</h2>
+          <h2 className="font-semibold text-[16px] mt-2 md:mt-0 text-base-text">{title}</h2>
           <button
             onClick={onClose}
             aria-label="Chiudi"

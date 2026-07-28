@@ -37,10 +37,10 @@ export default function Login() {
       <div className="w-full max-w-sm mx-auto animate-fade-up">
         <div className="flex items-center gap-2.5 mb-10">
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-steps to-stand" />
-          <span className="font-bold text-2xl tracking-tight">FitDay</span>
+          <span className="font-bold text-2xl tracking-tight text-base-text">FitDay</span>
         </div>
 
-        <h1 className="text-2xl font-bold mb-1">Bentornato</h1>
+        <h1 className="text-2xl font-bold mb-1 text-base-text">Bentornato</h1>
         <p className="text-base-muted text-sm mb-8">Accedi per continuare il tuo percorso</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>

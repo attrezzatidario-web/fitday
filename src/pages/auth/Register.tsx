@@ -55,7 +55,7 @@ export default function Register() {
           <div className="w-14 h-14 rounded-full bg-exercise/15 flex items-center justify-center mx-auto mb-5">
             <CheckCircle2 size={26} className="text-exercise" />
           </div>
-          <h1 className="text-xl font-bold mb-2">Controlla la tua email</h1>
+          <h1 className="text-xl font-bold mb-2 text-base-text">Controlla la tua email</h1>
           <p className="text-base-muted text-sm mb-8">
             Ti abbiamo inviato un link di conferma. Clicca sul link per attivare il tuo account FitDay.
           </p>
@@ -70,10 +70,10 @@ export default function Register() {
       <div className="w-full max-w-sm mx-auto animate-fade-up">
         <div className="flex items-center gap-2.5 mb-10">
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-steps to-stand" />
-          <span className="font-bold text-2xl tracking-tight">FitDay</span>
+          <span className="font-bold text-2xl tracking-tight text-base-text">FitDay</span>
         </div>
 
-        <h1 className="text-2xl font-bold mb-1">Crea il tuo account</h1>
+        <h1 className="text-2xl font-bold mb-1 text-base-text">Crea il tuo account</h1>
         <p className="text-base-muted text-sm mb-8">Inizia oggi il tuo percorso di fitness</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>

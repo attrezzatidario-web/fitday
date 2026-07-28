@@ -22,7 +22,7 @@ export function DateSelector({ date, onChange }: DateSelectorProps) {
       </button>
       <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-base-card2 min-w-[140px] justify-center">
         <Calendar size={13} className="text-base-muted" />
-        <span className="text-sm font-medium capitalize">{label}</span>
+        <span className="text-sm font-medium capitalize text-base-text">{label}</span>
       </div>
       <button
         aria-label="Giorno successivo"

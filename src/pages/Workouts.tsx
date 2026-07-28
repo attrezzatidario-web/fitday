@@ -50,13 +50,13 @@ export default function Workouts() {
   return (
     <div className="space-y-6 pb-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Allenamenti</h1>
+        <h1 className="text-2xl font-bold text-base-text">Allenamenti</h1>
         <DateSelector date={selectedDate} onChange={setSelectedDate} />
       </div>
 
       <button onClick={() => setFormOpen(true)} className="fd-card w-full flex items-center justify-center gap-2 !py-4 border-dashed border-2 border-base-border bg-transparent">
         <Plus size={16} />
-        <span className="text-sm font-semibold">Nuovo allenamento</span>
+        <span className="text-sm font-semibold text-base-text">Nuovo allenamento</span>
       </button>
 
       <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 md:mx-0 md:px-0">
@@ -118,7 +118,7 @@ function WorkoutRow({ workout, onDelete }: { workout: Workout; onDelete: () => v
         <Dumbbell size={17} style={{ color: meta.color }} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold truncate">{workout.name}</p>
+        <p className="text-sm font-semibold truncate text-base-text">{workout.name}</p>
         <div className="flex items-center gap-3 mt-1 text-xs text-base-muted flex-wrap">
           <span className="flex items-center gap-1"><Clock size={11} />{workout.duration_minutes} min</span>
           {workout.calories ? <span className="flex items-center gap-1"><Flame size={11} />{Math.round(workout.calories)} kcal</span> : null}
@@ -180,19 +180,19 @@ function WorkoutForm({ onSubmit }: { onSubmit: (payload: { name: string; workout
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="duration">Durata (min)</label>
-          <input id="duration" type="number" className="fd-input" value={duration} onChange={(e) => setDuration(e.target.value)} required min={1} />
+          <input id="duration" type="number" step="any" className="fd-input" value={duration} onChange={(e) => setDuration(e.target.value)} required min={1} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="w-cal">Calorie (kcal)</label>
-          <input id="w-cal" type="number" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} min={0} />
+          <input id="w-cal" type="number" step="any" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="dist">Distanza (km)</label>
-          <input id="dist" type="number" inputMode="decimal" className="fd-input" value={distance} onChange={(e) => setDistance(e.target.value)} min={0} />
+          <input id="dist" type="number" step="any" inputMode="decimal" className="fd-input" value={distance} onChange={(e) => setDistance(e.target.value)} min={0} />
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="hr">Battito medio (bpm)</label>
-          <input id="hr" type="number" className="fd-input" value={heartRate} onChange={(e) => setHeartRate(e.target.value)} min={0} />
+          <input id="hr" type="number" step="any" className="fd-input" value={heartRate} onChange={(e) => setHeartRate(e.target.value)} min={0} />
         </div>
       </div>
       <div>

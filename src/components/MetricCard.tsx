@@ -28,7 +28,7 @@ export function MetricCard({ icon: Icon, label, value, unit, color = '#B983FF', 
         </div>
       </div>
       <p className="fd-label">{label}</p>
-      <p className="text-2xl font-bold mt-0.5 tabular-nums">
+      <p className="text-2xl font-bold mt-0.5 tabular-nums text-base-text">
         {formatNumber(value, decimals)}
         {unit && <span className="text-sm font-medium text-base-muted ml-1">{unit}</span>}
       </p>

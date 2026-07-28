@@ -41,7 +41,7 @@ export default function ActivityPage() {
   return (
     <div className="space-y-6 pb-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Attività</h1>
+        <h1 className="text-2xl font-bold text-base-text">Attività</h1>
         <DateSelector date={selectedDate} onChange={setSelectedDate} />
       </div>
 
@@ -83,7 +83,7 @@ export default function ActivityPage() {
 
       {/* GRAFICO STORICO */}
       <div className="fd-card">
-        <h2 className="font-semibold text-[15px] mb-4">Passi — ultimi 14 giorni</h2>
+        <h2 className="font-semibold text-[15px] mb-4 text-base-text">Passi — ultimi 14 giorni</h2>
         {historyLoading ? (
           <div className="h-48 bg-base-card2 rounded-xl animate-pulse" />
         ) : chartData.length === 0 ? (
@@ -104,7 +104,7 @@ export default function ActivityPage() {
       </div>
 
       <div className="fd-card">
-        <h2 className="font-semibold text-[15px] mb-4">Calorie attive — ultimi 14 giorni</h2>
+        <h2 className="font-semibold text-[15px] mb-4 text-base-text">Calorie attive — ultimi 14 giorni</h2>
         {historyLoading ? (
           <div className="h-48 bg-base-card2 rounded-xl animate-pulse" />
         ) : chartData.length === 0 ? (
@@ -133,7 +133,7 @@ function ComparisonRow({ diff, unit }: { diff: number; unit: string }) {
   return (
     <div className={`flex items-center gap-1.5 ${color}`}>
       <Icon size={16} />
-      <span className="text-lg font-bold tabular-nums">{formatNumber(Math.abs(diff))}</span>
+      <span className="text-lg font-bold tabular-nums text-base-text">{formatNumber(Math.abs(diff))}</span>
       <span className="text-xs text-base-muted">{unit}</span>
     </div>
   )

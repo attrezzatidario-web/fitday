@@ -39,7 +39,7 @@ export default function Sleep() {
   return (
     <div className="space-y-6 pb-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Sonno</h1>
+        <h1 className="text-2xl font-bold text-base-text">Sonno</h1>
         <button onClick={() => setFormOpen(true)} className="w-9 h-9 rounded-full bg-base-invert text-base-invertfg flex items-center justify-center">
           <Plus size={17} />
         </button>
@@ -49,23 +49,23 @@ export default function Sleep() {
         <div className="fd-card !p-3.5">
           <Moon size={14} className="text-steps mb-2" />
           <p className="fd-label">Media 7gg</p>
-          <p className="text-lg font-bold tabular-nums mt-0.5">{formatNumber(weeklyAvg, 1)}<span className="text-xs text-base-muted ml-1">h</span></p>
+          <p className="text-lg font-bold tabular-nums mt-0.5 text-base-text">{formatNumber(weeklyAvg, 1)}<span className="text-xs text-base-muted ml-1">h</span></p>
         </div>
         <div className="fd-card !p-3.5">
           <BedDouble size={14} className="text-stand mb-2" />
           <p className="fd-label">Media 30gg</p>
-          <p className="text-lg font-bold tabular-nums mt-0.5">{formatNumber(avgHours, 1)}<span className="text-xs text-base-muted ml-1">h</span></p>
+          <p className="text-lg font-bold tabular-nums mt-0.5 text-base-text">{formatNumber(avgHours, 1)}<span className="text-xs text-base-muted ml-1">h</span></p>
         </div>
         <div className="fd-card !p-3.5">
           <Sun size={14} className="text-move mb-2" />
           <p className="fd-label">Debito sonno</p>
-          <p className="text-lg font-bold tabular-nums mt-0.5">{formatNumber(debt, 1)}<span className="text-xs text-base-muted ml-1">h</span></p>
+          <p className="text-lg font-bold tabular-nums mt-0.5 text-base-text">{formatNumber(debt, 1)}<span className="text-xs text-base-muted ml-1">h</span></p>
         </div>
       </div>
 
       {chartData.length > 0 && (
         <div className="fd-card">
-          <h2 className="font-semibold text-[15px] mb-4">Ultime 14 notti</h2>
+          <h2 className="font-semibold text-[15px] mb-4 text-base-text">Ultime 14 notti</h2>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#2C2C2E" vertical={false} />
@@ -91,7 +91,7 @@ export default function Sleep() {
                   <Moon size={15} className="text-steps" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{format(new Date(e.sleep_date), "d MMMM yyyy", { locale: it })}</p>
+                  <p className="text-sm font-medium text-base-text">{format(new Date(e.sleep_date), "d MMMM yyyy", { locale: it })}</p>
                   <p className="text-xs text-base-muted">
                     {Math.floor(e.duration_minutes / 60)}h {e.duration_minutes % 60}min
                     {e.quality ? ` · qualità ${e.quality}/5` : ''}

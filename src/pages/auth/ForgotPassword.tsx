@@ -42,14 +42,14 @@ export default function ForgotPassword() {
             <div className="w-14 h-14 rounded-full bg-exercise/15 flex items-center justify-center mx-auto mb-5">
               <CheckCircle2 size={26} className="text-exercise" />
             </div>
-            <h1 className="text-xl font-bold mb-2">Email inviata</h1>
+            <h1 className="text-xl font-bold mb-2 text-base-text">Email inviata</h1>
             <p className="text-base-muted text-sm">
               Controlla la tua casella di posta per il link di reimpostazione della password.
             </p>
           </div>
         ) : (
           <>
-            <h1 className="text-2xl font-bold mb-1">Recupera password</h1>
+            <h1 className="text-2xl font-bold mb-1 text-base-text">Recupera password</h1>
             <p className="text-base-muted text-sm mb-8">Ti invieremo un link per reimpostarla</p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>

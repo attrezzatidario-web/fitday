@@ -73,7 +73,7 @@ export function DailyTimeline({ foodEntries, workouts, waterEntries }: DailyTime
             <e.icon size={16} style={{ color: e.color }} />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">{e.title}</p>
+            <p className="text-sm font-medium truncate text-base-text">{e.title}</p>
             <p className="text-xs text-base-muted">{e.subtitle}</p>
           </div>
           <div className="flex items-center gap-1 text-xs text-base-muted shrink-0">

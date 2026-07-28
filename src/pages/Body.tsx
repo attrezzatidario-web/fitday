@@ -43,7 +43,7 @@ export default function Body() {
   return (
     <div className="space-y-6 pb-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Corpo e misurazioni</h1>
+        <h1 className="text-2xl font-bold text-base-text">Corpo e misurazioni</h1>
         <button onClick={() => setFormOpen(true)} className="w-9 h-9 rounded-full bg-base-invert text-base-invertfg flex items-center justify-center">
           <Plus size={17} />
         </button>
@@ -60,7 +60,7 @@ export default function Body() {
         if (data.length < 2) return null
         return (
           <div key={chart.key} className="fd-card">
-            <h2 className="font-semibold text-[15px] mb-4">{chart.label} — andamento</h2>
+            <h2 className="font-semibold text-[15px] mb-4 text-base-text">{chart.label} — andamento</h2>
             <ResponsiveContainer width="100%" height={180}>
               <LineChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#2C2C2E" vertical={false} />
@@ -85,7 +85,7 @@ export default function Body() {
             {measurements.map((m) => (
               <div key={m.id} className="fd-card !py-3 flex items-center gap-3">
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{format(new Date(m.measured_date), "d MMMM yyyy", { locale: it })}</p>
+                  <p className="text-sm font-medium text-base-text">{format(new Date(m.measured_date), "d MMMM yyyy", { locale: it })}</p>
                   <p className="text-xs text-base-muted">
                     {[
                       m.weight_kg ? `${m.weight_kg} kg` : null,
@@ -130,7 +130,7 @@ function StatCard({ icon: Icon, label, value, unit }: { icon: typeof Scale; labe
     <div className="fd-card !p-3.5">
       <Icon size={14} className="text-steps mb-2" />
       <p className="fd-label">{label}</p>
-      <p className="text-lg font-bold tabular-nums mt-0.5">{value != null ? `${formatNumber(value, 1)}` : '—'}<span className="text-xs text-base-muted ml-1">{unit}</span></p>
+      <p className="text-lg font-bold tabular-nums mt-0.5 text-base-text">{value != null ? `${formatNumber(value, 1)}` : '—'}<span className="text-xs text-base-muted ml-1">{unit}</span></p>
     </div>
   )
 }
@@ -207,7 +207,7 @@ function Field({ id, label, value, onChange }: { id: string; label: string; valu
   return (
     <div>
       <label className="fd-label mb-1.5 block" htmlFor={id}>{label}</label>
-      <input id={id} type="number" inputMode="decimal" className="fd-input" value={value} onChange={(e) => onChange(e.target.value)} />
+      <input id={id} type="number" step="any" inputMode="decimal" className="fd-input" value={value} onChange={(e) => onChange(e.target.value)} />
     </div>
   )
 }
