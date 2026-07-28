@@ -1,0 +1,309 @@
+import { useEffect, useState } from 'react'
+import { format } from 'date-fns'
+import { Utensils, Trash2, Plus } from 'lucide-react'
+import { DateSelector } from '@/components/DateSelector'
+import { Sheet } from '@/components/ui/Sheet'
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
+import { EmptyState } from '@/components/ui/EmptyState'
+import { ListSkeleton } from '@/components/ui/LoadingSkeleton'
+import { AIAnalyzeControls } from '@/components/AIAnalyzeControls'
+import { useFoodEntries } from '@/hooks/useFoodEntries'
+import { useToast } from '@/context/ToastContext'
+import { formatNumber } from '@/lib/utils'
+import type { AIFoodResult } from '@/lib/aiFood'
+import type { FoodEntry, MealType } from '@/types/database'
+
+const MEAL_TYPES: { value: MealType; label: string }[] = [
+  { value: 'breakfast', label: 'Colazione' },
+  { value: 'morning_snack', label: 'Spuntino mattutino' },
+  { value: 'lunch', label: 'Pranzo' },
+  { value: 'afternoon_snack', label: 'Spuntino pomeridiano' },
+  { value: 'dinner', label: 'Cena' },
+  { value: 'other', label: 'Altro' }
+]
+
+const CALORIES_GOAL = 2200
+const MACRO_COLORS = { protein: '#FF375F', carbs: '#FF9F0A', fat: '#B983FF' }
+
+export default function Nutrition() {
+  const [selectedDate, setSelectedDate] = useState(new Date())
+  const dateISO = format(selectedDate, 'yyyy-MM-dd')
+  const { entries, totals, loading, addEntry, deleteEntry } = useFoodEntries(dateISO)
+  const { showToast } = useToast()
+
+  const [addSheetMeal, setAddSheetMeal] = useState<MealType | null>(null)
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
+
+  const entriesByMeal = (meal: MealType) => entries.filter((e) => e.meal_type === meal)
+
+  const handleDelete = async () => {
+    if (!confirmDeleteId) return
+    const { error } = await deleteEntry(confirmDeleteId)
+    showToast(error ? 'Errore durante l\'eliminazione' : 'Alimento rimosso', error ? 'error' : 'success')
+    setConfirmDeleteId(null)
+  }
+
+  return (
+    <div className="space-y-6 pb-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Alimentazione</h1>
+        <DateSelector date={selectedDate} onChange={setSelectedDate} />
+      </div>
+
+      {/* RIEPILOGO CALORIE */}
+      <div className="fd-card flex flex-col md:flex-row items-center gap-6">
+        <CalorieRing consumed={totals.calories} goal={CALORIES_GOAL} />
+        <div className="flex-1 w-full grid grid-cols-3 gap-3">
+          <MacroStat label="Proteine" value={totals.protein} color={MACRO_COLORS.protein} />
+          <MacroStat label="Carboidrati" value={totals.carbs} color={MACRO_COLORS.carbs} />
+          <MacroStat label="Grassi" value={totals.fat} color={MACRO_COLORS.fat} />
+        </div>
+      </div>
+
+      <div className="fd-card !py-3 flex items-center justify-between">
+        <span className="text-sm text-base-muted">Calorie assunte oggi</span>
+        <span className="font-bold tabular-nums">{formatNumber(totals.calories)} / {formatNumber(CALORIES_GOAL)} kcal</span>
+      </div>
+
+      {/* PASTI */}
+      {loading ? (
+        <ListSkeleton rows={3} />
+      ) : (
+        <div className="space-y-4">
+          {MEAL_TYPES.map((meal) => {
+            const mealEntries = entriesByMeal(meal.value)
+            const mealCalories = mealEntries.reduce((s, e) => s + Number(e.calories), 0)
+            return (
+              <div key={meal.value}>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-semibold text-[14px]">{meal.label}</h3>
+                  <div className="flex items-center gap-2">
+                    {mealEntries.length > 0 && <span className="text-xs text-base-muted">{Math.round(mealCalories)} kcal</span>}
+                    <button
+                      onClick={() => setAddSheetMeal(meal.value)}
+                      aria-label={`Aggiungi a ${meal.label}`}
+                      className="w-6 h-6 rounded-full bg-base-card2 flex items-center justify-center"
+                    >
+                      <Plus size={13} />
+                    </button>
+                  </div>
+                </div>
+                {mealEntries.length === 0 ? (
+                  <button onClick={() => setAddSheetMeal(meal.value)} className="fd-card w-full text-left !py-3 text-sm text-base-muted">
+                    Nessun alimento aggiunto
+                  </button>
+                ) : (
+                  <div className="space-y-1.5">
+                    {mealEntries.map((entry) => (
+                      <FoodRow key={entry.id} entry={entry} onDelete={() => setConfirmDeleteId(entry.id)} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
+
+      {entries.length === 0 && !loading && (
+        <EmptyState icon={Utensils} title="Nessun pasto registrato" description="Aggiungi il tuo primo alimento per iniziare a tracciare la giornata." />
+      )}
+
+      <Sheet open={addSheetMeal !== null} onClose={() => setAddSheetMeal(null)} title={addSheetMeal ? `Aggiungi a ${MEAL_TYPES.find((m) => m.value === addSheetMeal)?.label}` : ''}>
+        {addSheetMeal && (
+          <QuickFoodForm
+            onSubmit={async (payload) => {
+              const { error } = await addEntry({ meal_type: addSheetMeal, ...payload })
+              showToast(error ? 'Errore durante il salvataggio' : 'Alimento aggiunto', error ? 'error' : 'success')
+              if (!error) setAddSheetMeal(null)
+            }}
+          />
+        )}
+      </Sheet>
+
+      <ConfirmDialog
+        open={confirmDeleteId !== null}
+        title="Eliminare questo alimento?"
+        description="L'azione non può essere annullata."
+        onConfirm={handleDelete}
+        onCancel={() => setConfirmDeleteId(null)}
+      />
+    </div>
+  )
+}
+
+function MacroStat({ label, value, color }: { label: string; value: number; color: string }) {
+  return (
+    <div>
+      <div className="flex items-center gap-1.5 mb-1">
+        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+        <span className="text-[11px] text-base-muted">{label}</span>
+      </div>
+      <p className="font-bold tabular-nums">{formatNumber(value)}g</p>
+    </div>
+  )
+}
+
+function FoodRow({ entry, onDelete }: { entry: FoodEntry; onDelete: () => void }) {
+  return (
+    <div className="fd-card !py-3 flex items-center gap-3">
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium truncate">{entry.food_name}</p>
+        <p className="text-xs text-base-muted">
+          {formatNumber(entry.quantity)} {entry.unit} · {Math.round(entry.calories)} kcal
+        </p>
+      </div>
+      <button onClick={onDelete} aria-label="Elimina" className="text-base-muted hover:text-move p-1">
+        <Trash2 size={15} />
+      </button>
+    </div>
+  )
+}
+
+function QuickFoodForm({ onSubmit }: { onSubmit: (payload: { food_name: string; quantity: number; unit: string; calories: number; protein_g: number; carbs_g: number; fat_g: number; fiber_g: number; sugar_g: number; salt_g: number }) => void }) {
+  const { showToast } = useToast()
+  const [name, setName] = useState('')
+  const [quantity, setQuantity] = useState('100')
+  const [unit, setUnit] = useState('g')
+  const [calories, setCalories] = useState('')
+  const [protein, setProtein] = useState('0')
+  const [carbs, setCarbs] = useState('0')
+  const [fat, setFat] = useState('0')
+  const [fiber, setFiber] = useState('0')
+  const [sugar, setSugar] = useState('0')
+  const [salt, setSalt] = useState('0')
+  const [submitting, setSubmitting] = useState(false)
+  const valid = name.trim().length > 0 && Number(calories) >= 0 && Number(quantity) > 0
+
+  const applyAIResult = (r: AIFoodResult) => {
+    if (r.food_name) setName(r.food_name)
+    setQuantity(String(r.quantity))
+    setUnit(r.unit || 'g')
+    setCalories(String(Math.round(r.calories)))
+    setProtein(String(r.protein_g))
+    setCarbs(String(r.carbs_g))
+    setFat(String(r.fat_g))
+    setFiber(String(r.fiber_g))
+    setSugar(String(r.sugar_g))
+    setSalt(String(r.salt_g))
+  }
+
+  return (
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault()
+        if (!valid) return
+        setSubmitting(true)
+        await onSubmit({
+          food_name: name.trim(),
+          quantity: Number(quantity),
+          unit,
+          calories: Number(calories),
+          protein_g: Number(protein),
+          carbs_g: Number(carbs),
+          fat_g: Number(fat),
+          fiber_g: Number(fiber),
+          sugar_g: Number(sugar),
+          salt_g: Number(salt)
+        })
+        setSubmitting(false)
+      }}
+      className="space-y-4"
+    >
+      <div>
+        <label className="fd-label mb-1.5 block" htmlFor="fn">Alimento</label>
+        <input id="fn" className="fd-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Es. Yogurt greco, oppure '10 chicchi di uva'" required autoFocus />
+      </div>
+
+      <AIAnalyzeControls
+        currentName={name}
+        onResult={applyAIResult}
+        onError={(msg) => showToast(msg, 'error')}
+      />
+
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="fq">Quantità</label>
+          <div className="flex gap-2">
+            <input id="fq" type="number" inputMode="decimal" className="fd-input flex-1" value={quantity} onChange={(e) => setQuantity(e.target.value)} required min={1} />
+            <input aria-label="Unità" className="fd-input w-16 text-center px-1" value={unit} onChange={(e) => setUnit(e.target.value)} />
+          </div>
+        </div>
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="fc">Calorie (kcal)</label>
+          <input id="fc" type="number" inputMode="decimal" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} required min={0} />
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-3">
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="fp">Prot. (g)</label>
+          <input id="fp" type="number" inputMode="decimal" className="fd-input" value={protein} onChange={(e) => setProtein(e.target.value)} min={0} />
+        </div>
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="fcarb">Carbo (g)</label>
+          <input id="fcarb" type="number" inputMode="decimal" className="fd-input" value={carbs} onChange={(e) => setCarbs(e.target.value)} min={0} />
+        </div>
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="ff">Grassi (g)</label>
+          <input id="ff" type="number" inputMode="decimal" className="fd-input" value={fat} onChange={(e) => setFat(e.target.value)} min={0} />
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-3">
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="ffib">Fibre (g)</label>
+          <input id="ffib" type="number" inputMode="decimal" className="fd-input" value={fiber} onChange={(e) => setFiber(e.target.value)} min={0} />
+        </div>
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="fsug">Zuccheri (g)</label>
+          <input id="fsug" type="number" inputMode="decimal" className="fd-input" value={sugar} onChange={(e) => setSugar(e.target.value)} min={0} />
+        </div>
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="fsalt">Sale (g)</label>
+          <input id="fsalt" type="number" inputMode="decimal" className="fd-input" value={salt} onChange={(e) => setSalt(e.target.value)} min={0} />
+        </div>
+      </div>
+      <button type="submit" disabled={!valid || submitting} className="fd-btn-primary">
+        {submitting ? 'Salvataggio...' : 'Aggiungi alimento'}
+      </button>
+    </form>
+  )
+}
+
+function CalorieRing({ consumed, goal, size = 128 }: { consumed: number; goal: number; size?: number }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    const t = requestAnimationFrame(() => setMounted(true))
+    return () => cancelAnimationFrame(t)
+  }, [])
+
+  const remaining = Math.max(goal - consumed, 0)
+  const pct = goal > 0 ? Math.min(consumed / goal, 1) : 0
+  const strokeWidth = size * 0.09
+  const radius = size / 2 - strokeWidth / 2
+  const circumference = 2 * Math.PI * radius
+
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" className="stroke-base-card2" strokeWidth={strokeWidth} />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="#FFD60A"
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={mounted ? circumference * (1 - pct) : circumference}
+          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+          style={{ transition: 'stroke-dashoffset 0.9s cubic-bezier(0.65,0,0.35,1)' }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-xl font-bold tabular-nums">{formatNumber(remaining)}</span>
+        <span className="text-[10px] text-base-muted text-center px-2">kcal rimanenti</span>
+      </div>
+    </div>
+  )
+}
