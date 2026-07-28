@@ -69,7 +69,7 @@ export default function Register() {
     <div className="min-h-screen bg-base-black flex flex-col justify-center px-6 py-12">
       <div className="w-full max-w-sm mx-auto animate-fade-up">
         <div className="flex items-center gap-2.5 mb-10">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-steps to-stand" />
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-steps to-stand flex items-center justify-center text-white font-bold text-lg shrink-0">F</div>
           <span className="font-bold text-2xl tracking-tight text-base-text">FitDay</span>
         </div>
 

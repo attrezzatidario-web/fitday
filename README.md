@@ -27,6 +27,12 @@ Più: Profilo, Impostazioni (tema chiaro/scuro/sistema, notifiche, esportazione 
 - Risolto testo invisibile nel tema chiaro (card, interruttori, pannello di personalizzazione)
 - I campi numerici (proteine, carboidrati, grassi, peso, ecc.) ora accettano valori decimali con la virgola
 - Risolta la sovrapposizione dell'intestazione con la barra di stato del telefono nella PWA installata
+- Corretta la posizione del pallino negli interruttori (usciva dal bordo)
+- **Possibilità di aggiungere più alimenti/bevande allo stesso pasto** in un'unica sessione, prima di salvare
+- **Nuovo logo**, coerente con l'identità di diario quotidiano (non più anelli di attività)
+- **Palette del tema chiaro rivista**: card, pulsanti e sezioni ora si distinguono chiaramente dallo sfondo
+- **Registrazione su giorni passati**: il pulsante rapido "+" ora segue il giorno selezionato in Home invece di scrivere sempre su "oggi"; la pagina Corpo permette di scegliere la data della misurazione
+- Rimossi anelli attività, passi, sonno, abitudini, calendario, obiettivi e progressi: l'app è ora un diario quotidiano semplice (cibo, acqua, allenamento, peso)
 
 ---
 

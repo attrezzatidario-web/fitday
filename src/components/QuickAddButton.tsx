@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Plus, Utensils, Droplets, Dumbbell, Scale, StickyNote } from 'lucide-react'
+import { format, isToday, parseISO } from 'date-fns'
+import { it } from 'date-fns/locale'
+import { Plus, Utensils, Droplets, Dumbbell, Scale, StickyNote, CalendarClock } from 'lucide-react'
 import { Sheet } from '@/components/ui/Sheet'
 import { useToast } from '@/context/ToastContext'
 import { useQuickAdd } from '@/context/QuickAddContext'
@@ -9,7 +11,6 @@ import { useWorkouts } from '@/hooks/useWorkouts'
 import { useBodyMeasurements } from '@/hooks/useBodyMeasurements'
 import { useDailyNotes } from '@/hooks/useDailyNotes'
 import { MultiFoodEntryForm, type FoodItemDraft } from '@/components/MultiFoodEntryForm'
-import { todayISO } from '@/lib/utils'
 import type { MealType, WorkoutType } from '@/types/database'
 
 type QuickAddKind = 'meal' | 'water' | 'workout' | 'weight' | 'note' | null
@@ -40,16 +41,19 @@ const WORKOUT_OPTIONS: { value: WorkoutType; label: string }[] = [
 const WATER_QUICK_ML = [100, 250, 330, 500, 750, 1000]
 
 export function QuickAddButton() {
-  const dateISO = todayISO()
   const [active, setActive] = useState<QuickAddKind>(null)
   const { showToast } = useToast()
-  const { menuOpen, openMenu, closeMenu, notifyAdded } = useQuickAdd()
+  const { menuOpen, openMenu, closeMenu, notifyAdded, targetDate } = useQuickAdd()
+  const dateISO = targetDate
 
   const { addMultipleEntries } = useFoodEntries(dateISO)
   const { addWater } = useWaterEntries(dateISO)
   const { addWorkout } = useWorkouts(dateISO)
   const { addMeasurement } = useBodyMeasurements()
   const { addNote } = useDailyNotes(dateISO)
+
+  const targetIsToday = isToday(parseISO(dateISO))
+  const dateSuffix = targetIsToday ? '' : ` · ${format(parseISO(dateISO), "d MMMM", { locale: it })}`
 
   const closeAll = () => {
     closeMenu()
@@ -83,6 +87,12 @@ export function QuickAddButton() {
       </button>
 
       <Sheet open={menuOpen} onClose={closeAll} title="Inserimento rapido">
+        {!targetIsToday && (
+          <div className="flex items-center gap-2 bg-stand/10 text-stand text-[12px] font-medium rounded-xl px-3 py-2 mb-3">
+            <CalendarClock size={14} />
+            Stai aggiungendo a {format(parseISO(dateISO), "EEEE d MMMM", { locale: it })}
+          </div>
+        )}
         <div className="grid grid-cols-2 gap-2.5">
           {options.map((opt) => (
             <button
@@ -100,7 +110,7 @@ export function QuickAddButton() {
       </Sheet>
 
       {/* PASTO */}
-      <Sheet open={active === 'meal'} onClose={() => setActive(null)} title="Aggiungi pasto">
+      <Sheet open={active === 'meal'} onClose={() => setActive(null)} title={`Aggiungi pasto${dateSuffix}`}>
         <MealForm
           onSubmitAll={async (mealType, items) => {
             const { error } = await addMultipleEntries(mealType, items)
@@ -111,7 +121,7 @@ export function QuickAddButton() {
       </Sheet>
 
       {/* ACQUA */}
-      <Sheet open={active === 'water'} onClose={() => setActive(null)} title="Aggiungi acqua">
+      <Sheet open={active === 'water'} onClose={() => setActive(null)} title={`Aggiungi acqua${dateSuffix}`}>
         <div className="grid grid-cols-3 gap-2.5">
           {WATER_QUICK_ML.map((ml) => (
             <button
@@ -131,7 +141,7 @@ export function QuickAddButton() {
       </Sheet>
 
       {/* ALLENAMENTO */}
-      <Sheet open={active === 'workout'} onClose={() => setActive(null)} title="Aggiungi allenamento">
+      <Sheet open={active === 'workout'} onClose={() => setActive(null)} title={`Aggiungi allenamento${dateSuffix}`}>
         <WorkoutForm
           onSubmit={async (payload) => {
             const { error } = await addWorkout(payload)
@@ -141,7 +151,7 @@ export function QuickAddButton() {
       </Sheet>
 
       {/* PESO */}
-      <Sheet open={active === 'weight'} onClose={() => setActive(null)} title="Aggiungi peso">
+      <Sheet open={active === 'weight'} onClose={() => setActive(null)} title={`Aggiungi peso${dateSuffix}`}>
         <NumberForm
           label="Peso corporeo"
           unit="kg"
@@ -154,7 +164,7 @@ export function QuickAddButton() {
       </Sheet>
 
       {/* NOTA */}
-      <Sheet open={active === 'note'} onClose={() => setActive(null)} title="Aggiungi nota">
+      <Sheet open={active === 'note'} onClose={() => setActive(null)} title={`Aggiungi nota${dateSuffix}`}>
         <NoteForm
           onSubmit={async (content) => {
             const { error } = await addNote(content)

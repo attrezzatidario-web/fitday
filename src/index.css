@@ -19,12 +19,12 @@
   }
 
   :root.theme-light {
-    --c-bg: 246 246 248;
+    --c-bg: 240 240 243;
     --c-surface: 255 255 255;
     --c-card: 255 255 255;
-    --c-card2: 242 242 247;
-    --c-border: 226 226 230;
-    --c-muted: 108 108 112;
+    --c-card2: 226 226 232;
+    --c-border: 208 208 216;
+    --c-muted: 104 104 112;
     --c-text: 17 17 19;
     --c-invert-bg: 17 17 19;
     --c-invert-text: 255 255 255;

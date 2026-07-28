@@ -16,7 +16,7 @@ export function Sidebar() {
   return (
     <aside className="hidden md:flex flex-col w-60 shrink-0 h-screen sticky top-0 border-r border-base-border px-3 py-6">
       <div className="flex items-center gap-2 px-3 mb-8">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-steps to-stand" />
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-steps to-stand flex items-center justify-center text-white font-bold text-[15px] shrink-0">F</div>
         <span className="font-bold text-lg tracking-tight text-base-text">FitDay</span>
       </div>
       <nav className="flex flex-col gap-1 overflow-y-auto pb-4">

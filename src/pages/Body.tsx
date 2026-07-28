@@ -106,8 +106,8 @@ export default function Body() {
 
       <Sheet open={formOpen} onClose={() => setFormOpen(false)} title="Nuova misurazione">
         <MeasurementForm
-          onSubmit={async (payload) => {
-            const { error } = await addMeasurement(todayISO(), payload)
+          onSubmit={async (measuredDate, payload) => {
+            const { error } = await addMeasurement(measuredDate, payload)
             showToast(error ? 'Errore durante il salvataggio' : 'Misurazione registrata', error ? 'error' : 'success')
             if (!error) setFormOpen(false)
           }}
@@ -135,7 +135,8 @@ function StatCard({ icon: Icon, label, value, unit }: { icon: typeof Scale; labe
   )
 }
 
-function MeasurementForm({ onSubmit }: { onSubmit: (payload: Partial<BodyMeasurement>) => void }) {
+function MeasurementForm({ onSubmit }: { onSubmit: (measuredDate: string, payload: Partial<BodyMeasurement>) => void }) {
+  const [measuredDate, setMeasuredDate] = useState(todayISO())
   const [weight, setWeight] = useState('')
   const [bodyFat, setBodyFat] = useState('')
   const [waist, setWaist] = useState('')
@@ -155,7 +156,7 @@ function MeasurementForm({ onSubmit }: { onSubmit: (payload: Partial<BodyMeasure
       onSubmit={async (e) => {
         e.preventDefault()
         setSubmitting(true)
-        await onSubmit({
+        await onSubmit(measuredDate, {
           weight_kg: weight ? Number(weight) : null,
           body_fat_pct: bodyFat ? Number(bodyFat) : null,
           waist_cm: waist ? Number(waist) : null,
@@ -173,6 +174,17 @@ function MeasurementForm({ onSubmit }: { onSubmit: (payload: Partial<BodyMeasure
       }}
       className="space-y-4"
     >
+      <div>
+        <label className="fd-label mb-1.5 block" htmlFor="measured-date">Data</label>
+        <input
+          id="measured-date"
+          type="date"
+          className="fd-input"
+          value={measuredDate}
+          max={todayISO()}
+          onChange={(e) => setMeasuredDate(e.target.value)}
+        />
+      </div>
       <div className="grid grid-cols-2 gap-3">
         <Field id="weight" label="Peso (kg)" value={weight} onChange={setWeight} />
         <Field id="bodyFat" label="Massa grassa (%)" value={bodyFat} onChange={setBodyFat} />

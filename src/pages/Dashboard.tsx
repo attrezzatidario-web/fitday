@@ -20,13 +20,20 @@ const WATER_GOAL_ML = 2000
 
 export default function Dashboard() {
   const { profile } = useAuth()
-  const { lastAddedAt } = useQuickAdd()
+  const { lastAddedAt, setTargetDate } = useQuickAdd()
   const location = useLocation()
   const navigate = useNavigate()
   const initialDate = (location.state as { date?: string } | null)?.date
   const [selectedDate, setSelectedDate] = useState(() => (initialDate ? new Date(`${initialDate}T00:00:00`) : new Date()))
   const dateISO = format(selectedDate, 'yyyy-MM-dd')
   const isToday = dateISO === todayISO()
+
+  // Tiene sincronizzata la data del pulsante rapido "+" con il giorno visualizzato in Home;
+  // torna a "oggi" quando si lascia la Home, così altrove il pulsante rapido resta prevedibile.
+  useEffect(() => {
+    setTargetDate(dateISO)
+    return () => setTargetDate(todayISO())
+  }, [dateISO, setTargetDate])
 
   const { entries: foodEntries, totals: foodTotals, loading: foodLoading, reload: reloadFood } = useFoodEntries(dateISO)
   const { entries: waterEntries, totalMl: waterTotal, loading: waterLoading, reload: reloadWater } = useWaterEntries(dateISO)
