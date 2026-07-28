@@ -39,8 +39,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             {t.kind === 'success' && <CheckCircle2 size={18} className="text-exercise shrink-0" />}
             {t.kind === 'error' && <XCircle size={18} className="text-move shrink-0" />}
             {t.kind === 'info' && <Info size={18} className="text-stand shrink-0" />}
-            <p className="text-[13px] text-white/90 flex-1">{t.message}</p>
-            <button onClick={() => dismiss(t.id)} className="text-base-muted hover:text-white shrink-0">
+            <p className="text-[13px] text-base-text/90 flex-1">{t.message}</p>
+            <button onClick={() => dismiss(t.id)} className="text-base-muted hover:text-base-text shrink-0">
               <X size={14} />
             </button>
           </div>

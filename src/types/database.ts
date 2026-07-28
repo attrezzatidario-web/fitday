@@ -37,6 +37,7 @@ export interface UserSettings {
   water_reminder_enabled: boolean
   workout_reminder_enabled: boolean
   daily_summary_enabled: boolean
+  dashboard_widgets: string[] | null
   created_at: string
   updated_at: string
 }

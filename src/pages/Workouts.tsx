@@ -62,7 +62,7 @@ export default function Workouts() {
       <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 md:mx-0 md:px-0">
         <button
           onClick={() => setFilterType('all')}
-          className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium ${filterType === 'all' ? 'bg-white text-black' : 'bg-base-card2 text-white/70'}`}
+          className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium ${filterType === 'all' ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2 text-base-text/70'}`}
         >
           Tutti
         </button>
@@ -70,7 +70,7 @@ export default function Workouts() {
           <button
             key={t.value}
             onClick={() => setFilterType(t.value)}
-            className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium ${filterType === t.value ? 'bg-white text-black' : 'bg-base-card2 text-white/70'}`}
+            className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium ${filterType === t.value ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2 text-base-text/70'}`}
           >
             {t.label}
           </button>

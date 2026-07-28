@@ -40,7 +40,7 @@ export function ActivityRings({ move, exercise, stand, size = 220, onRingClick }
       viewBox={`0 0 ${size} ${size}`}
       width={size}
       height={size}
-      className="drop-shadow-[0_0_18px_rgba(0,0,0,0.5)]"
+      className="overflow-visible"
       role="img"
       aria-label={`Movimento ${Math.round((move.value / move.goal) * 100)}%, Esercizio ${Math.round((exercise.value / exercise.goal) * 100)}%, In piedi ${Math.round((stand.value / stand.goal) * 100)}%`}
     >

@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
-import { Utensils, Trash2, Plus, PieChart } from 'lucide-react'
-import { PieChart as RePieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
+import { Utensils, Trash2, Plus } from 'lucide-react'
 import { DateSelector } from '@/components/DateSelector'
 import { Sheet } from '@/components/ui/Sheet'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
@@ -35,14 +34,6 @@ export default function Nutrition() {
   const [addSheetMeal, setAddSheetMeal] = useState<MealType | null>(null)
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
 
-  const remaining = CALORIES_GOAL - totals.calories
-
-  const macroData = [
-    { name: 'Proteine', value: totals.protein * 4, color: MACRO_COLORS.protein },
-    { name: 'Carboidrati', value: totals.carbs * 4, color: MACRO_COLORS.carbs },
-    { name: 'Grassi', value: totals.fat * 9, color: MACRO_COLORS.fat }
-  ].filter((d) => d.value > 0)
-
   const entriesByMeal = (meal: MealType) => entries.filter((e) => e.meal_type === meal)
 
   const handleDelete = async () => {
@@ -61,27 +52,7 @@ export default function Nutrition() {
 
       {/* RIEPILOGO CALORIE */}
       <div className="fd-card flex flex-col md:flex-row items-center gap-6">
-        <div className="relative w-36 h-36 shrink-0">
-          {macroData.length > 0 ? (
-            <ResponsiveContainer width="100%" height="100%">
-              <RePieChart>
-                <Pie data={macroData} dataKey="value" innerRadius={48} outerRadius={64} paddingAngle={3} stroke="none">
-                  {macroData.map((d) => (
-                    <Cell key={d.name} fill={d.color} />
-                  ))}
-                </Pie>
-              </RePieChart>
-            </ResponsiveContainer>
-          ) : (
-            <div className="w-full h-full rounded-full border-8 border-base-card2 flex items-center justify-center">
-              <PieChart size={24} className="text-base-muted" />
-            </div>
-          )}
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-xl font-bold tabular-nums">{formatNumber(Math.max(remaining, 0))}</span>
-            <span className="text-[10px] text-base-muted">kcal rimanenti</span>
-          </div>
-        </div>
+        <CalorieRing consumed={totals.calories} goal={CALORIES_GOAL} />
         <div className="flex-1 w-full grid grid-cols-3 gap-3">
           <MacroStat label="Proteine" value={totals.protein} color={MACRO_COLORS.protein} />
           <MacroStat label="Carboidrati" value={totals.carbs} color={MACRO_COLORS.carbs} />
@@ -295,5 +266,44 @@ function QuickFoodForm({ onSubmit }: { onSubmit: (payload: { food_name: string; 
         {submitting ? 'Salvataggio...' : 'Aggiungi alimento'}
       </button>
     </form>
+  )
+}
+
+function CalorieRing({ consumed, goal, size = 128 }: { consumed: number; goal: number; size?: number }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    const t = requestAnimationFrame(() => setMounted(true))
+    return () => cancelAnimationFrame(t)
+  }, [])
+
+  const remaining = Math.max(goal - consumed, 0)
+  const pct = goal > 0 ? Math.min(consumed / goal, 1) : 0
+  const strokeWidth = size * 0.09
+  const radius = size / 2 - strokeWidth / 2
+  const circumference = 2 * Math.PI * radius
+
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" className="stroke-base-card2" strokeWidth={strokeWidth} />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="#FFD60A"
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={mounted ? circumference * (1 - pct) : circumference}
+          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+          style={{ transition: 'stroke-dashoffset 0.9s cubic-bezier(0.65,0,0.35,1)' }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-xl font-bold tabular-nums">{formatNumber(remaining)}</span>
+        <span className="text-[10px] text-base-muted text-center px-2">kcal rimanenti</span>
+      </div>
+    </div>
   )
 }

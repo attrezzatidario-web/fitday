@@ -31,7 +31,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex flex-col justify-center px-6 py-12">
+    <div className="min-h-screen bg-base-black flex flex-col justify-center px-6 py-12">
       <div className="w-full max-w-sm mx-auto animate-fade-up">
         <Link to="/login" className="inline-flex items-center gap-1.5 text-sm text-base-muted mb-8">
           <ArrowLeft size={15} /> Torna al login

@@ -33,7 +33,7 @@ export default function Habits() {
     <div className="space-y-6 pb-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Abitudini</h1>
-        <button onClick={() => setFormOpen(true)} className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center">
+        <button onClick={() => setFormOpen(true)} className="w-9 h-9 rounded-full bg-base-invert text-base-invertfg flex items-center justify-center">
           <Plus size={17} />
         </button>
       </div>
@@ -61,7 +61,7 @@ export default function Habits() {
                   className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition"
                   style={{ backgroundColor: done ? habit.color : `${habit.color}22`, border: `2px solid ${habit.color}` }}
                 >
-                  {done && <Check size={18} className="text-black" strokeWidth={3} />}
+                  {done && <Check size={18} className="text-base-invertfg" strokeWidth={3} />}
                 </button>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold truncate">{habit.name}</p>
@@ -144,7 +144,7 @@ function HabitForm({ onSubmit }: { onSubmit: (payload: { name: string; color: st
               key={f}
               type="button"
               onClick={() => setFrequency(f)}
-              className={`rounded-xl py-2.5 text-[13px] font-medium ${frequency === f ? 'bg-white text-black' : 'bg-base-card2'}`}
+              className={`rounded-xl py-2.5 text-[13px] font-medium ${frequency === f ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2'}`}
             >
               {f === 'daily' ? 'Ogni giorno' : f === 'weekly' ? 'Settimanale' : 'Personalizzata'}
             </button>

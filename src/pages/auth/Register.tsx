@@ -50,7 +50,7 @@ export default function Register() {
 
   if (emailSent) {
     return (
-      <div className="min-h-screen bg-black flex flex-col justify-center px-6 py-12">
+      <div className="min-h-screen bg-base-black flex flex-col justify-center px-6 py-12">
         <div className="w-full max-w-sm mx-auto text-center animate-fade-up">
           <div className="w-14 h-14 rounded-full bg-exercise/15 flex items-center justify-center mx-auto mb-5">
             <CheckCircle2 size={26} className="text-exercise" />
@@ -66,10 +66,10 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex flex-col justify-center px-6 py-12">
+    <div className="min-h-screen bg-base-black flex flex-col justify-center px-6 py-12">
       <div className="w-full max-w-sm mx-auto animate-fade-up">
         <div className="flex items-center gap-2.5 mb-10">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-move via-exercise to-stand" />
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-steps to-stand" />
           <span className="font-bold text-2xl tracking-tight">FitDay</span>
         </div>
 
@@ -129,7 +129,7 @@ export default function Register() {
 
         <p className="text-center text-sm text-base-muted mt-8">
           Hai già un account?{' '}
-          <Link to="/login" className="text-white font-semibold">Accedi</Link>
+          <Link to="/login" className="text-base-text font-semibold">Accedi</Link>
         </p>
       </div>
     </div>

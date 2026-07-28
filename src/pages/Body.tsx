@@ -44,7 +44,7 @@ export default function Body() {
     <div className="space-y-6 pb-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Corpo e misurazioni</h1>
-        <button onClick={() => setFormOpen(true)} className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center">
+        <button onClick={() => setFormOpen(true)} className="w-9 h-9 rounded-full bg-base-invert text-base-invertfg flex items-center justify-center">
           <Plus size={17} />
         </button>
       </div>

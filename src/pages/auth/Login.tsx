@@ -33,10 +33,10 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex flex-col justify-center px-6 py-12">
+    <div className="min-h-screen bg-base-black flex flex-col justify-center px-6 py-12">
       <div className="w-full max-w-sm mx-auto animate-fade-up">
         <div className="flex items-center gap-2.5 mb-10">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-move via-exercise to-stand" />
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-steps to-stand" />
           <span className="font-bold text-2xl tracking-tight">FitDay</span>
         </div>
 
@@ -88,7 +88,7 @@ export default function Login() {
 
         <p className="text-center text-sm text-base-muted mt-8">
           Non hai un account?{' '}
-          <Link to="/register" className="text-white font-semibold">Registrati</Link>
+          <Link to="/register" className="text-base-text font-semibold">Registrati</Link>
         </p>
       </div>
     </div>

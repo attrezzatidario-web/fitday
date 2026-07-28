@@ -1,14 +1,22 @@
-import { Bell, Download, Droplets, Dumbbell, Sparkles } from 'lucide-react'
+import { Bell, Download, Droplets, Dumbbell, Sparkles, Sun, Moon, MonitorSmartphone } from 'lucide-react'
 import { useUserSettings } from '@/hooks/useUserSettings'
 import { useToast } from '@/context/ToastContext'
 import { useAuth } from '@/context/AuthContext'
+import { useTheme, type ThemePreference } from '@/context/ThemeContext'
 import { supabase } from '@/lib/supabase'
 import { CardSkeleton } from '@/components/ui/LoadingSkeleton'
+
+const THEME_OPTIONS: { value: ThemePreference; label: string; icon: typeof Sun }[] = [
+  { value: 'light', label: 'Chiaro', icon: Sun },
+  { value: 'dark', label: 'Scuro', icon: Moon },
+  { value: 'system', label: 'Sistema', icon: MonitorSmartphone }
+]
 
 export default function Settings() {
   const { settings, loading, update } = useUserSettings()
   const { showToast } = useToast()
   const { user } = useAuth()
+  const { preference, setPreference } = useTheme()
 
   const toggle = async (key: 'notifications_enabled' | 'water_reminder_enabled' | 'workout_reminder_enabled' | 'daily_summary_enabled') => {
     if (!settings) return
@@ -40,6 +48,24 @@ export default function Settings() {
   return (
     <div className="space-y-6 pb-4 max-w-lg">
       <h1 className="text-2xl font-bold">Impostazioni</h1>
+
+      <div className="fd-card">
+        <h2 className="font-semibold text-[15px] mb-3">Aspetto</h2>
+        <div className="grid grid-cols-3 gap-2">
+          {THEME_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => setPreference(opt.value)}
+              className={`flex flex-col items-center gap-1.5 rounded-xl py-3 text-[12px] font-medium transition ${
+                preference === opt.value ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2 text-base-text/80'
+              }`}
+            >
+              <opt.icon size={16} />
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="fd-card space-y-1">
         <h2 className="font-semibold text-[15px] mb-3">Notifiche</h2>
@@ -73,7 +99,7 @@ function ToggleRow({ icon: Icon, label, checked, onChange }: { icon: typeof Bell
         aria-checked={checked}
         className={`w-11 h-6 rounded-full relative transition ${checked ? 'bg-exercise' : 'bg-base-card2'}`}
       >
-        <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${checked ? 'translate-x-[22px]' : 'translate-x-0.5'}`} />
+        <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-base-invert transition-transform ${checked ? 'translate-x-[22px]' : 'translate-x-0.5'}`} />
       </button>
     </div>
   )

@@ -93,7 +93,7 @@ function GoalRow({ label, unit, color, currentValue, onSave }: { label: string; 
           }}
           disabled={!dirty || saving}
           aria-label="Salva obiettivo"
-          className="w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shrink-0 disabled:opacity-30 transition"
+          className="w-9 h-9 rounded-full bg-base-invert text-base-invertfg flex items-center justify-center shrink-0 disabled:opacity-30 transition"
         >
           <Save size={14} />
         </button>

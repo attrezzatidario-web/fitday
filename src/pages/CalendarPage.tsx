@@ -59,8 +59,8 @@ export default function CalendarPage() {
                 onDoubleClick={() => navigate('/', { state: { date: dateKey } })}
                 className={cn(
                   'aspect-square rounded-xl flex flex-col items-center justify-center gap-0.5 text-xs relative',
-                  inMonth ? 'text-white' : 'text-base-muted/40',
-                  isSelected ? 'bg-white text-black font-bold' : 'bg-base-card2/60',
+                  inMonth ? 'text-base-text' : 'text-base-muted/40',
+                  isSelected ? 'bg-base-invert text-base-invertfg font-bold' : 'bg-base-card2/60',
                   isToday(day) && !isSelected && 'ring-1 ring-stand'
                 )}
               >

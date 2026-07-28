@@ -87,7 +87,7 @@ export function QuickAddButton() {
       <button
         onClick={openMenu}
         aria-label="Inserimento rapido"
-        className="hidden md:flex fixed z-[70] bottom-8 right-8 w-14 h-14 rounded-full bg-white text-black items-center justify-center shadow-glow active:scale-90 transition"
+        className="hidden md:flex fixed z-[70] bottom-8 right-8 w-14 h-14 rounded-full bg-base-invert text-base-invertfg items-center justify-center shadow-glow active:scale-90 transition"
       >
         <Plus size={26} strokeWidth={2.5} />
       </button>
@@ -217,7 +217,7 @@ export function QuickAddButton() {
                     className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
                     style={{ backgroundColor: done ? h.color : `${h.color}22`, border: `2px solid ${h.color}` }}
                   >
-                    {done && <Check size={14} className="text-black" strokeWidth={3} />}
+                    {done && <Check size={14} className="text-base-invertfg" strokeWidth={3} />}
                   </div>
                   <span className="text-sm font-medium">{h.name}</span>
                 </button>
@@ -291,7 +291,7 @@ function MealForm({ onSubmit }: { onSubmit: (payload: { meal_type: MealType; foo
               type="button"
               key={m.value}
               onClick={() => setMealType(m.value)}
-              className={`rounded-xl py-2.5 text-[13px] font-medium transition ${mealType === m.value ? 'bg-white text-black' : 'bg-base-card2 text-white/80'}`}
+              className={`rounded-xl py-2.5 text-[13px] font-medium transition ${mealType === m.value ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2 text-base-text/80'}`}
             >
               {m.label}
             </button>

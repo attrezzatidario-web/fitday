@@ -56,7 +56,7 @@ export default function Progress() {
           <button
             key={p.days}
             onClick={() => setPeriodDays(p.days)}
-            className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-medium ${periodDays === p.days ? 'bg-white text-black' : 'bg-base-card2 text-white/70'}`}
+            className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-medium ${periodDays === p.days ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2 text-base-text/70'}`}
           >
             {p.label}
           </button>

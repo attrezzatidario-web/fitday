@@ -54,7 +54,7 @@ export default function Profile() {
       <h1 className="text-2xl font-bold">Profilo</h1>
 
       <div className="fd-card flex items-center gap-4">
-        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-move via-exercise to-stand flex items-center justify-center text-xl font-bold shrink-0">
+        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-steps to-stand flex items-center justify-center text-xl font-bold shrink-0 text-base-invertfg">
           {profile?.full_name?.[0]?.toUpperCase() ?? <UserIcon size={22} />}
         </div>
         <div>
@@ -109,8 +109,8 @@ export default function Profile() {
         <div>
           <label className="fd-label mb-1.5 block">Unità di misura</label>
           <div className="grid grid-cols-2 gap-2">
-            <button type="button" onClick={() => setUnits('metric')} className={`rounded-xl py-2.5 text-[13px] font-medium ${units === 'metric' ? 'bg-white text-black' : 'bg-base-card2'}`}>Metriche</button>
-            <button type="button" onClick={() => setUnits('imperial')} className={`rounded-xl py-2.5 text-[13px] font-medium ${units === 'imperial' ? 'bg-white text-black' : 'bg-base-card2'}`}>Imperiali</button>
+            <button type="button" onClick={() => setUnits('metric')} className={`rounded-xl py-2.5 text-[13px] font-medium ${units === 'metric' ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2'}`}>Metriche</button>
+            <button type="button" onClick={() => setUnits('imperial')} className={`rounded-xl py-2.5 text-[13px] font-medium ${units === 'imperial' ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2'}`}>Imperiali</button>
           </div>
         </div>
       </div>

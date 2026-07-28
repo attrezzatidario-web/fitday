@@ -119,7 +119,7 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="min-h-screen bg-black px-6 py-8 flex flex-col">
+    <div className="min-h-screen bg-base-black px-6 py-8 flex flex-col">
       <div className="max-w-sm w-full mx-auto flex-1 flex flex-col">
         <div className="flex items-center gap-3 mb-8">
           {step > 0 && (
@@ -129,7 +129,7 @@ export default function Onboarding() {
           )}
           <div className="flex-1 flex gap-1.5">
             {STEPS.map((_, i) => (
-              <div key={i} className={`h-1 flex-1 rounded-full ${i <= step ? 'bg-white' : 'bg-base-card2'}`} />
+              <div key={i} className={`h-1 flex-1 rounded-full ${i <= step ? 'bg-base-invert' : 'bg-base-card2'}`} />
             ))}
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function Onboarding() {
                       key={s}
                       type="button"
                       onClick={() => set('sex', s)}
-                      className={`rounded-xl py-2.5 text-[13px] font-medium ${data.sex === s ? 'bg-white text-black' : 'bg-base-card2'}`}
+                      className={`rounded-xl py-2.5 text-[13px] font-medium ${data.sex === s ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2'}`}
                     >
                       {s === 'male' ? 'Uomo' : s === 'female' ? 'Donna' : 'Altro'}
                     </button>
@@ -176,8 +176,8 @@ export default function Onboarding() {
               <div>
                 <label className="fd-label mb-1.5 block">Unità di misura</label>
                 <div className="grid grid-cols-2 gap-2">
-                  <button type="button" onClick={() => set('units', 'metric')} className={`rounded-xl py-2.5 text-[13px] font-medium ${data.units === 'metric' ? 'bg-white text-black' : 'bg-base-card2'}`}>Metriche (kg, cm)</button>
-                  <button type="button" onClick={() => set('units', 'imperial')} className={`rounded-xl py-2.5 text-[13px] font-medium ${data.units === 'imperial' ? 'bg-white text-black' : 'bg-base-card2'}`}>Imperiali (lb, ft)</button>
+                  <button type="button" onClick={() => set('units', 'metric')} className={`rounded-xl py-2.5 text-[13px] font-medium ${data.units === 'metric' ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2'}`}>Metriche (kg, cm)</button>
+                  <button type="button" onClick={() => set('units', 'imperial')} className={`rounded-xl py-2.5 text-[13px] font-medium ${data.units === 'imperial' ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2'}`}>Imperiali (lb, ft)</button>
                 </div>
               </div>
               <div>
@@ -213,7 +213,7 @@ export default function Onboarding() {
                       key={val}
                       type="button"
                       onClick={() => set('activityLevel', val)}
-                      className={`w-full text-left rounded-xl px-4 py-3 text-sm font-medium ${data.activityLevel === val ? 'bg-white text-black' : 'bg-base-card2'}`}
+                      className={`w-full text-left rounded-xl px-4 py-3 text-sm font-medium ${data.activityLevel === val ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2'}`}
                     >
                       {label}
                     </button>
@@ -233,7 +233,7 @@ export default function Onboarding() {
                       key={val}
                       type="button"
                       onClick={() => set('primaryGoal', val)}
-                      className={`rounded-xl py-3 text-[13px] font-medium ${data.primaryGoal === val ? 'bg-white text-black' : 'bg-base-card2'}`}
+                      className={`rounded-xl py-3 text-[13px] font-medium ${data.primaryGoal === val ? 'bg-base-invert text-base-invertfg' : 'bg-base-card2'}`}
                     >
                       {label}
                     </button>
