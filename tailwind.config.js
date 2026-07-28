@@ -6,12 +6,15 @@ export default {
     extend: {
       colors: {
         base: {
-          black: '#000000',
-          surface: '#161616',
-          card: '#1C1C1E',
-          card2: '#242426',
-          border: '#2C2C2E',
-          muted: '#8E8E93'
+          black: 'rgb(var(--c-bg) / <alpha-value>)',
+          surface: 'rgb(var(--c-surface) / <alpha-value>)',
+          card: 'rgb(var(--c-card) / <alpha-value>)',
+          card2: 'rgb(var(--c-card2) / <alpha-value>)',
+          border: 'rgb(var(--c-border) / <alpha-value>)',
+          muted: 'rgb(var(--c-muted) / <alpha-value>)',
+          text: 'rgb(var(--c-text) / <alpha-value>)',
+          invert: 'rgb(var(--c-invert-bg) / <alpha-value>)',
+          invertfg: 'rgb(var(--c-invert-text) / <alpha-value>)'
         },
         move: { DEFAULT: '#FA114F', dim: '#FA114F33' },
         exercise: { DEFAULT: '#A6FF00', dim: '#A6FF0033' },
@@ -34,8 +37,8 @@ export default {
         pill: '999px'
       },
       boxShadow: {
-        card: '0 8px 30px rgba(0,0,0,0.45)',
-        glow: '0 0 24px rgba(255,255,255,0.06)'
+        card: 'var(--shadow-card)',
+        glow: 'var(--shadow-glow)'
       },
       keyframes: {
         'ring-fill': {

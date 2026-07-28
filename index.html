@@ -16,6 +16,17 @@
 
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>FitDay</title>
+    <script>
+      (function () {
+        try {
+          var pref = localStorage.getItem('fitday-theme') || 'dark'
+          var resolved = pref === 'system'
+            ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+            : pref
+          if (resolved === 'light') document.documentElement.classList.add('theme-light')
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body class="bg-black text-white antialiased">
     <div id="root"></div>

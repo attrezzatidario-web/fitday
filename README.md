@@ -21,10 +21,11 @@ React + TypeScript + Vite + Tailwind CSS + Supabase. Installabile come app (PWA)
 - **Calendario mensile** (riepilogo colorato per giorno, click per aprire la giornata)
 - **Obiettivi** (editor completo per tutti i traguardi giornalieri/settimanali, con storico modifiche)
 - Progressi (andamento peso, passi, calorie, filtri per periodo)
-- Profilo e Impostazioni (con esportazione dati in JSON, menu di accesso rapido alle sezioni)
+- Profilo e Impostazioni (con esportazione dati in JSON, menu di accesso rapido alle sezioni, **selettore tema chiaro/scuro/sistema**)
+- **Dashboard personalizzabile**: scegli quali metriche mostrare nella home tramite il pulsante "Personalizza"
 - Pulsante rapido "+" globale con 8 tipi di inserimento (pasto, acqua, allenamento, peso, passi, sonno, abitudine, nota)
 - **Analisi alimenti con IA**: scatta/carica una foto del cibo o scrivi una descrizione (es. "10 chicchi di uva") e l'intelligenza artificiale compila automaticamente nome, quantità stimata, calorie e macronutrienti — sempre modificabili prima di salvare. Se riconosce una marca, cerca i dati nutrizionali precisi sul web.
-- PWA installabile, dark mode, responsive mobile/tablet/desktop
+- PWA installabile, tema chiaro/scuro/sistema, responsive mobile/tablet/desktop
 
 **Database Supabase completo per tutte le 20+ tabelle**, incluse quelle non ancora sfruttate al 100% dall'interfaccia: esercizi/serie nel dettaglio allenamento, ricette, pasti salvati, achievement, notifiche.
 
@@ -36,11 +37,12 @@ React + TypeScript + Vite + Tailwind CSS + Supabase. Installabile come app (PWA)
 
 1. Crea un progetto su [supabase.com](https://supabase.com)
 2. Vai su **SQL Editor** → incolla ed esegui tutto il contenuto di `supabase/schema.sql`
-3. Vai su **Project Settings → API** e copia:
+3. Esegui anche `supabase/migrations/002_dashboard_customization.sql` (una nuova query, stesso procedimento) — aggiunge la colonna necessaria per la personalizzazione della Dashboard
+4. Vai su **Project Settings → API** e copia:
    - `Project URL`
    - `anon public key`
-4. Vai su **Authentication → Providers** e verifica che "Email" sia abilitato
-5. (Facoltativo ma consigliato) In **Authentication → URL Configuration**, imposta il tuo dominio Netlify come Site URL una volta fatto il deploy
+5. Vai su **Authentication → Providers** e verifica che "Email" sia abilitato
+6. (Facoltativo ma consigliato) In **Authentication → URL Configuration**, imposta il tuo dominio Netlify come Site URL una volta fatto il deploy
 
 ---
 
