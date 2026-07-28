@@ -52,6 +52,32 @@ export function useFoodEntries(dateISO: string) {
     [user, dateISO]
   )
 
+  const addMultipleEntries = useCallback(
+    async (
+      meal_type: MealType,
+      items: {
+        food_name: string
+        quantity: number
+        unit: string
+        calories: number
+        protein_g?: number
+        carbs_g?: number
+        fat_g?: number
+        fiber_g?: number
+        sugar_g?: number
+        salt_g?: number
+      }[]
+    ) => {
+      if (!user) return { error: new Error('Non autenticato') }
+      if (items.length === 0) return { error: null }
+      const rows = items.map((item) => ({ user_id: user.id, entry_date: dateISO, meal_type, ...item }))
+      const { data, error } = await supabase.from('food_entries').insert(rows).select('*')
+      if (!error && data) setEntries((prev) => [...prev, ...(data as FoodEntry[])])
+      return { error }
+    },
+    [user, dateISO]
+  )
+
   const deleteEntry = useCallback(async (id: string) => {
     const { error } = await supabase.from('food_entries').delete().eq('id', id)
     if (!error) setEntries((prev) => prev.filter((e) => e.id !== id))
@@ -68,5 +94,5 @@ export function useFoodEntries(dateISO: string) {
     { calories: 0, protein: 0, carbs: 0, fat: 0 }
   )
 
-  return { entries, totals, loading, addEntry, deleteEntry, reload: load }
+  return { entries, totals, loading, addEntry, addMultipleEntries, deleteEntry, reload: load }
 }

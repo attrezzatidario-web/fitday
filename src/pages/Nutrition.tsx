@@ -6,11 +6,10 @@ import { Sheet } from '@/components/ui/Sheet'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { ListSkeleton } from '@/components/ui/LoadingSkeleton'
-import { AIAnalyzeControls } from '@/components/AIAnalyzeControls'
+import { MultiFoodEntryForm } from '@/components/MultiFoodEntryForm'
 import { useFoodEntries } from '@/hooks/useFoodEntries'
 import { useToast } from '@/context/ToastContext'
 import { formatNumber } from '@/lib/utils'
-import type { AIFoodResult } from '@/lib/aiFood'
 import type { FoodEntry, MealType } from '@/types/database'
 
 const MEAL_TYPES: { value: MealType; label: string }[] = [
@@ -28,7 +27,7 @@ const MACRO_COLORS = { protein: '#FF375F', carbs: '#FF9F0A', fat: '#B983FF' }
 export default function Nutrition() {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const dateISO = format(selectedDate, 'yyyy-MM-dd')
-  const { entries, totals, loading, addEntry, deleteEntry } = useFoodEntries(dateISO)
+  const { entries, totals, loading, addMultipleEntries, deleteEntry } = useFoodEntries(dateISO)
   const { showToast } = useToast()
 
   const [addSheetMeal, setAddSheetMeal] = useState<MealType | null>(null)
@@ -111,11 +110,16 @@ export default function Nutrition() {
 
       <Sheet open={addSheetMeal !== null} onClose={() => setAddSheetMeal(null)} title={addSheetMeal ? `Aggiungi a ${MEAL_TYPES.find((m) => m.value === addSheetMeal)?.label}` : ''}>
         {addSheetMeal && (
-          <QuickFoodForm
-            onSubmit={async (payload) => {
-              const { error } = await addEntry({ meal_type: addSheetMeal, ...payload })
-              showToast(error ? 'Errore durante il salvataggio' : 'Alimento aggiunto', error ? 'error' : 'success')
+          <MultiFoodEntryForm
+            submitLabel="Salva pasto"
+            onSubmitAll={async (foodItems) => {
+              const { error } = await addMultipleEntries(addSheetMeal, foodItems)
+              showToast(
+                error ? 'Errore durante il salvataggio' : `${foodItems.length} alimento${foodItems.length > 1 ? 'i' : ''} aggiunto${foodItems.length > 1 ? 'i' : ''}`,
+                error ? 'error' : 'success'
+              )
               if (!error) setAddSheetMeal(null)
+              return { error }
             }}
           />
         )}
@@ -157,115 +161,6 @@ function FoodRow({ entry, onDelete }: { entry: FoodEntry; onDelete: () => void }
         <Trash2 size={15} />
       </button>
     </div>
-  )
-}
-
-function QuickFoodForm({ onSubmit }: { onSubmit: (payload: { food_name: string; quantity: number; unit: string; calories: number; protein_g: number; carbs_g: number; fat_g: number; fiber_g: number; sugar_g: number; salt_g: number }) => void }) {
-  const { showToast } = useToast()
-  const [name, setName] = useState('')
-  const [quantity, setQuantity] = useState('100')
-  const [unit, setUnit] = useState('g')
-  const [calories, setCalories] = useState('')
-  const [protein, setProtein] = useState('0')
-  const [carbs, setCarbs] = useState('0')
-  const [fat, setFat] = useState('0')
-  const [fiber, setFiber] = useState('0')
-  const [sugar, setSugar] = useState('0')
-  const [salt, setSalt] = useState('0')
-  const [submitting, setSubmitting] = useState(false)
-  const valid = name.trim().length > 0 && Number(calories) >= 0 && Number(quantity) > 0
-
-  const applyAIResult = (r: AIFoodResult) => {
-    if (r.food_name) setName(r.food_name)
-    setQuantity(String(r.quantity))
-    setUnit(r.unit || 'g')
-    setCalories(String(Math.round(r.calories)))
-    setProtein(String(r.protein_g))
-    setCarbs(String(r.carbs_g))
-    setFat(String(r.fat_g))
-    setFiber(String(r.fiber_g))
-    setSugar(String(r.sugar_g))
-    setSalt(String(r.salt_g))
-  }
-
-  return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault()
-        if (!valid) return
-        setSubmitting(true)
-        await onSubmit({
-          food_name: name.trim(),
-          quantity: Number(quantity),
-          unit,
-          calories: Number(calories),
-          protein_g: Number(protein),
-          carbs_g: Number(carbs),
-          fat_g: Number(fat),
-          fiber_g: Number(fiber),
-          sugar_g: Number(sugar),
-          salt_g: Number(salt)
-        })
-        setSubmitting(false)
-      }}
-      className="space-y-4"
-    >
-      <div>
-        <label className="fd-label mb-1.5 block" htmlFor="fn">Alimento</label>
-        <input id="fn" className="fd-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Es. Yogurt greco, oppure '10 chicchi di uva'" required autoFocus />
-      </div>
-
-      <AIAnalyzeControls
-        currentName={name}
-        onResult={applyAIResult}
-        onError={(msg) => showToast(msg, 'error')}
-      />
-
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="fq">Quantità</label>
-          <div className="flex gap-2">
-            <input id="fq" type="number" step="any" inputMode="decimal" className="fd-input flex-1" value={quantity} onChange={(e) => setQuantity(e.target.value)} required min={1} />
-            <input aria-label="Unità" className="fd-input w-16 text-center px-1" value={unit} onChange={(e) => setUnit(e.target.value)} />
-          </div>
-        </div>
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="fc">Calorie (kcal)</label>
-          <input id="fc" type="number" step="any" inputMode="decimal" className="fd-input" value={calories} onChange={(e) => setCalories(e.target.value)} required min={0} />
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-3">
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="fp">Prot. (g)</label>
-          <input id="fp" type="number" step="any" inputMode="decimal" className="fd-input" value={protein} onChange={(e) => setProtein(e.target.value)} min={0} />
-        </div>
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="fcarb">Carbo (g)</label>
-          <input id="fcarb" type="number" step="any" inputMode="decimal" className="fd-input" value={carbs} onChange={(e) => setCarbs(e.target.value)} min={0} />
-        </div>
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="ff">Grassi (g)</label>
-          <input id="ff" type="number" step="any" inputMode="decimal" className="fd-input" value={fat} onChange={(e) => setFat(e.target.value)} min={0} />
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-3">
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="ffib">Fibre (g)</label>
-          <input id="ffib" type="number" step="any" inputMode="decimal" className="fd-input" value={fiber} onChange={(e) => setFiber(e.target.value)} min={0} />
-        </div>
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="fsug">Zuccheri (g)</label>
-          <input id="fsug" type="number" step="any" inputMode="decimal" className="fd-input" value={sugar} onChange={(e) => setSugar(e.target.value)} min={0} />
-        </div>
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="fsalt">Sale (g)</label>
-          <input id="fsalt" type="number" step="any" inputMode="decimal" className="fd-input" value={salt} onChange={(e) => setSalt(e.target.value)} min={0} />
-        </div>
-      </div>
-      <button type="submit" disabled={!valid || submitting} className="fd-btn-primary">
-        {submitting ? 'Salvataggio...' : 'Aggiungi alimento'}
-      </button>
-    </form>
   )
 }
 

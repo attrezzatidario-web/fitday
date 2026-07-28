@@ -181,7 +181,7 @@ export default function Dashboard() {
                 onClick={() => toggleWidget(w.key)}
                 className={`w-11 h-6 rounded-full relative transition ${isVisible(w.key) ? 'bg-exercise' : 'bg-base-card2'}`}
               >
-                <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-base-invert transition-transform ${isVisible(w.key) ? 'translate-x-[22px]' : 'translate-x-0.5'}`} />
+                <span className={`absolute left-0.5 top-0.5 w-5 h-5 rounded-full bg-base-invert transition-transform ${isVisible(w.key) ? 'translate-x-5' : 'translate-x-0'}`} />
               </button>
             </label>
           ))}
