@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background-color: #000;
+    overscroll-behavior-y: none;
+  }
+  ::selection {
+    background: #A6FF0055;
+  }
+  :focus-visible {
+    outline: 2px solid #0AF1F2;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .fd-card {
+    @apply bg-base-card rounded-card p-4 shadow-card border border-white/[0.04];
+  }
+  .fd-input {
+    @apply w-full bg-base-card2 border border-base-border rounded-2xl px-4 py-3 text-white placeholder:text-base-muted text-[15px] focus:outline-none focus:ring-2 focus:ring-stand transition;
+  }
+  .fd-btn-primary {
+    @apply w-full bg-white text-black font-semibold rounded-full py-3.5 text-[15px] active:scale-[0.98] transition disabled:opacity-40;
+  }
+  .fd-btn-ghost {
+    @apply w-full bg-base-card2 text-white font-medium rounded-full py-3.5 text-[15px] active:scale-[0.98] transition;
+  }
+  .fd-label {
+    @apply text-xs font-semibold uppercase tracking-wide text-base-muted;
+  }
+}
+
+/* Scrollbar minimale */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: #2C2C2E; border-radius: 999px; }
+::-webkit-scrollbar-track { background: transparent; }
