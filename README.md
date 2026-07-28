@@ -23,6 +23,7 @@ React + TypeScript + Vite + Tailwind CSS + Supabase. Installabile come app (PWA)
 - Progressi (andamento peso, passi, calorie, filtri per periodo)
 - Profilo e Impostazioni (con esportazione dati in JSON, menu di accesso rapido alle sezioni)
 - Pulsante rapido "+" globale con 8 tipi di inserimento (pasto, acqua, allenamento, peso, passi, sonno, abitudine, nota)
+- **Analisi alimenti con IA**: scatta/carica una foto del cibo o scrivi una descrizione (es. "10 chicchi di uva") e l'intelligenza artificiale compila automaticamente nome, quantità stimata, calorie e macronutrienti — sempre modificabili prima di salvare. Se riconosce una marca, cerca i dati nutrizionali precisi sul web.
 - PWA installabile, dark mode, responsive mobile/tablet/desktop
 
 **Database Supabase completo per tutte le 20+ tabelle**, incluse quelle non ancora sfruttate al 100% dall'interfaccia: esercizi/serie nel dettaglio allenamento, ricette, pasti salvati, achievement, notifiche.
@@ -43,7 +44,24 @@ React + TypeScript + Vite + Tailwind CSS + Supabase. Installabile come app (PWA)
 
 ---
 
-## 3. Setup locale
+## 3. Setup dell'analisi alimenti con IA (facoltativo ma consigliato)
+
+Questa funzione richiede una piccola "Edge Function" su Supabase, che chiama Google Gemini in modo sicuro (la chiave non è mai esposta nel browser). Si fa tutta da browser, senza CLI:
+
+1. Vai su **[aistudio.google.com](https://aistudio.google.com)** → **Get API key** → **Create API key** → copia la chiave (è gratuita, nessuna carta richiesta)
+2. Su Supabase, vai su **Edge Functions** (menu a sinistra) → **Manage secrets** (o **Secrets**) → aggiungi:
+   - Nome: `GEMINI_API_KEY`
+   - Valore: la chiave copiata al punto 1
+3. Sempre in **Edge Functions**, clicca **Deploy a new function → Via Editor**
+4. Nome della funzione: `analyze-food`
+5. Cancella il codice di esempio e incolla tutto il contenuto del file `supabase/functions/analyze-food/index.ts` (incluso nello zip)
+6. Clicca **Deploy**
+
+Fatto: la funzione è live su `https://TUO-PROGETTO.supabase.co/functions/v1/analyze-food` e l'app la chiama automaticamente. Non serve nessuna variabile d'ambiente aggiuntiva su Netlify per questa funzione.
+
+---
+
+## 4. Setup locale
 
 ```bash
 npm install
@@ -56,7 +74,7 @@ L'app sarà su `http://localhost:5173`.
 
 ---
 
-## 4. Pubblicazione su GitHub
+## 5. Pubblicazione su GitHub
 
 ```bash
 git init
@@ -69,7 +87,7 @@ git push -u origin main
 
 ---
 
-## 5. Deploy su Netlify
+## 6. Deploy su Netlify
 
 1. Vai su [app.netlify.com](https://app.netlify.com) → **Add new site → Import an existing project**
 2. Collega il repository GitHub appena creato
@@ -81,7 +99,7 @@ git push -u origin main
 
 ---
 
-## 6. Installazione come app sul telefono
+## 7. Installazione come app sul telefono
 
 Una volta online su Netlify (richiede HTTPS, che Netlify fornisce automaticamente):
 
@@ -92,7 +110,7 @@ L'app si aprirà a schermo intero, senza barra del browser, come un'app nativa.
 
 ---
 
-## 7. Verifiche già effettuate
+## 8. Verifiche già effettuate
 
 - ✅ `npx tsc -b` → **0 errori**
 - ✅ `npx vite build` → build di produzione completata senza errori
@@ -102,7 +120,7 @@ L'app si aprirà a schermo intero, senza barra del browser, come un'app nativa.
 
 ---
 
-## 8. Possibili estensioni future
+## 9. Possibili estensioni future
 
 L'architettura è già pronta per:
 1. Ricerca in un database alimenti esterno (servizio astratto già predisposto in `src/hooks/useFoodEntries.ts`, facilmente estendibile)

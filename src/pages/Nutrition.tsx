@@ -7,9 +7,11 @@ import { Sheet } from '@/components/ui/Sheet'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { ListSkeleton } from '@/components/ui/LoadingSkeleton'
+import { AIAnalyzeControls } from '@/components/AIAnalyzeControls'
 import { useFoodEntries } from '@/hooks/useFoodEntries'
 import { useToast } from '@/context/ToastContext'
 import { formatNumber } from '@/lib/utils'
+import type { AIFoodResult } from '@/lib/aiFood'
 import type { FoodEntry, MealType } from '@/types/database'
 
 const MEAL_TYPES: { value: MealType; label: string }[] = [
@@ -187,15 +189,33 @@ function FoodRow({ entry, onDelete }: { entry: FoodEntry; onDelete: () => void }
   )
 }
 
-function QuickFoodForm({ onSubmit }: { onSubmit: (payload: { food_name: string; quantity: number; unit: string; calories: number; protein_g: number; carbs_g: number; fat_g: number }) => void }) {
+function QuickFoodForm({ onSubmit }: { onSubmit: (payload: { food_name: string; quantity: number; unit: string; calories: number; protein_g: number; carbs_g: number; fat_g: number; fiber_g: number; sugar_g: number; salt_g: number }) => void }) {
+  const { showToast } = useToast()
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState('100')
+  const [unit, setUnit] = useState('g')
   const [calories, setCalories] = useState('')
   const [protein, setProtein] = useState('0')
   const [carbs, setCarbs] = useState('0')
   const [fat, setFat] = useState('0')
+  const [fiber, setFiber] = useState('0')
+  const [sugar, setSugar] = useState('0')
+  const [salt, setSalt] = useState('0')
   const [submitting, setSubmitting] = useState(false)
   const valid = name.trim().length > 0 && Number(calories) >= 0 && Number(quantity) > 0
+
+  const applyAIResult = (r: AIFoodResult) => {
+    if (r.food_name) setName(r.food_name)
+    setQuantity(String(r.quantity))
+    setUnit(r.unit || 'g')
+    setCalories(String(Math.round(r.calories)))
+    setProtein(String(r.protein_g))
+    setCarbs(String(r.carbs_g))
+    setFat(String(r.fat_g))
+    setFiber(String(r.fiber_g))
+    setSugar(String(r.sugar_g))
+    setSalt(String(r.salt_g))
+  }
 
   return (
     <form
@@ -206,11 +226,14 @@ function QuickFoodForm({ onSubmit }: { onSubmit: (payload: { food_name: string; 
         await onSubmit({
           food_name: name.trim(),
           quantity: Number(quantity),
-          unit: 'g',
+          unit,
           calories: Number(calories),
           protein_g: Number(protein),
           carbs_g: Number(carbs),
-          fat_g: Number(fat)
+          fat_g: Number(fat),
+          fiber_g: Number(fiber),
+          sugar_g: Number(sugar),
+          salt_g: Number(salt)
         })
         setSubmitting(false)
       }}
@@ -218,12 +241,22 @@ function QuickFoodForm({ onSubmit }: { onSubmit: (payload: { food_name: string; 
     >
       <div>
         <label className="fd-label mb-1.5 block" htmlFor="fn">Alimento</label>
-        <input id="fn" className="fd-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Es. Yogurt greco" required autoFocus />
+        <input id="fn" className="fd-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Es. Yogurt greco, oppure '10 chicchi di uva'" required autoFocus />
       </div>
+
+      <AIAnalyzeControls
+        currentName={name}
+        onResult={applyAIResult}
+        onError={(msg) => showToast(msg, 'error')}
+      />
+
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="fd-label mb-1.5 block" htmlFor="fq">Quantità (g)</label>
-          <input id="fq" type="number" inputMode="decimal" className="fd-input" value={quantity} onChange={(e) => setQuantity(e.target.value)} required min={1} />
+          <label className="fd-label mb-1.5 block" htmlFor="fq">Quantità</label>
+          <div className="flex gap-2">
+            <input id="fq" type="number" inputMode="decimal" className="fd-input flex-1" value={quantity} onChange={(e) => setQuantity(e.target.value)} required min={1} />
+            <input aria-label="Unità" className="fd-input w-16 text-center px-1" value={unit} onChange={(e) => setUnit(e.target.value)} />
+          </div>
         </div>
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="fc">Calorie (kcal)</label>
@@ -242,6 +275,20 @@ function QuickFoodForm({ onSubmit }: { onSubmit: (payload: { food_name: string; 
         <div>
           <label className="fd-label mb-1.5 block" htmlFor="ff">Grassi (g)</label>
           <input id="ff" type="number" inputMode="decimal" className="fd-input" value={fat} onChange={(e) => setFat(e.target.value)} min={0} />
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-3">
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="ffib">Fibre (g)</label>
+          <input id="ffib" type="number" inputMode="decimal" className="fd-input" value={fiber} onChange={(e) => setFiber(e.target.value)} min={0} />
+        </div>
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="fsug">Zuccheri (g)</label>
+          <input id="fsug" type="number" inputMode="decimal" className="fd-input" value={sugar} onChange={(e) => setSugar(e.target.value)} min={0} />
+        </div>
+        <div>
+          <label className="fd-label mb-1.5 block" htmlFor="fsalt">Sale (g)</label>
+          <input id="fsalt" type="number" inputMode="decimal" className="fd-input" value={salt} onChange={(e) => setSalt(e.target.value)} min={0} />
         </div>
       </div>
       <button type="submit" disabled={!valid || submitting} className="fd-btn-primary">
