@@ -29,9 +29,9 @@ export function Sheet({ open, onClose, title, children }: SheetProps) {
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="relative w-full md:max-w-md bg-base-surface md:bg-base-card rounded-t-[28px] md:rounded-card mt-auto md:mt-0 max-h-[88vh] md:max-h-[85vh] overflow-y-auto animate-sheet-up md:animate-pop border border-white/[0.06]"
+        className="relative w-full md:max-w-md bg-base-surface md:bg-base-card rounded-t-[28px] md:rounded-card mt-auto md:mt-0 max-h-[88vh] md:max-h-[85vh] overflow-y-auto animate-sheet-up md:animate-pop border border-base-border"
       >
-        <div className="sticky top-0 bg-base-surface md:bg-base-card px-5 pt-4 pb-3 flex items-center justify-between border-b border-white/[0.06] z-10">
+        <div className="sticky top-0 bg-base-surface md:bg-base-card px-5 pt-4 pb-3 flex items-center justify-between border-b border-base-border z-10">
           <div className="w-8 h-1 rounded-full bg-base-border absolute left-1/2 -translate-x-1/2 top-2 md:hidden" />
           <h2 className="font-semibold text-[16px] mt-2 md:mt-0 text-base-text">{title}</h2>
           <button

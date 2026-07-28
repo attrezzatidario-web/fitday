@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus, Utensils, Droplets, Dumbbell, Scale, Footprints, StickyNote, Moon, Check } from 'lucide-react'
+import { Plus, Utensils, Droplets, Dumbbell, Scale, StickyNote } from 'lucide-react'
 import { Sheet } from '@/components/ui/Sheet'
 import { useToast } from '@/context/ToastContext'
 import { useQuickAdd } from '@/context/QuickAddContext'
@@ -8,14 +8,11 @@ import { useWaterEntries } from '@/hooks/useWaterEntries'
 import { useWorkouts } from '@/hooks/useWorkouts'
 import { useBodyMeasurements } from '@/hooks/useBodyMeasurements'
 import { useDailyNotes } from '@/hooks/useDailyNotes'
-import { useDailyActivity } from '@/hooks/useDailyActivity'
-import { useSleepEntries } from '@/hooks/useSleepEntries'
-import { useHabits } from '@/hooks/useHabits'
 import { MultiFoodEntryForm, type FoodItemDraft } from '@/components/MultiFoodEntryForm'
 import { todayISO } from '@/lib/utils'
 import type { MealType, WorkoutType } from '@/types/database'
 
-type QuickAddKind = 'meal' | 'water' | 'workout' | 'weight' | 'steps' | 'note' | 'sleep' | 'habit' | null
+type QuickAddKind = 'meal' | 'water' | 'workout' | 'weight' | 'note' | null
 
 const MEAL_OPTIONS: { value: MealType; label: string }[] = [
   { value: 'breakfast', label: 'Colazione' },
@@ -53,9 +50,6 @@ export function QuickAddButton() {
   const { addWorkout } = useWorkouts(dateISO)
   const { addMeasurement } = useBodyMeasurements()
   const { addNote } = useDailyNotes(dateISO)
-  const { update: updateActivity, data: activity } = useDailyActivity(dateISO)
-  const { addEntry: addSleep } = useSleepEntries(1)
-  const { habits, toggleToday, isCompletedToday } = useHabits()
 
   const closeAll = () => {
     closeMenu()
@@ -75,9 +69,6 @@ export function QuickAddButton() {
     { kind: 'water', icon: Droplets, label: 'Aggiungi acqua', color: '#0AF1F2' },
     { kind: 'workout', icon: Dumbbell, label: 'Aggiungi allenamento', color: '#A6FF00' },
     { kind: 'weight', icon: Scale, label: 'Aggiungi peso', color: '#B983FF' },
-    { kind: 'steps', icon: Footprints, label: 'Aggiungi passi', color: '#FA114F' },
-    { kind: 'sleep', icon: Moon, label: 'Aggiungi sonno', color: '#64D2FF' },
-    { kind: 'habit', icon: Check, label: 'Completa abitudine', color: '#A6FF00' },
     { kind: 'note', icon: StickyNote, label: 'Aggiungi nota', color: '#FFD60A' }
   ]
 
@@ -162,20 +153,6 @@ export function QuickAddButton() {
         />
       </Sheet>
 
-      {/* PASSI */}
-      <Sheet open={active === 'steps'} onClose={() => setActive(null)} title="Aggiungi passi">
-        <NumberForm
-          label="Passi totali di oggi"
-          unit="passi"
-          step={1}
-          defaultValue={activity.steps}
-          onSubmit={async (value) => {
-            const result = await updateActivity({ steps: Math.round(value) })
-            notifyAndClose(!result?.error, 'Passi aggiornati')
-          }}
-        />
-      </Sheet>
-
       {/* NOTA */}
       <Sheet open={active === 'note'} onClose={() => setActive(null)} title="Aggiungi nota">
         <NoteForm
@@ -184,47 +161,6 @@ export function QuickAddButton() {
             notifyAndClose(!error, 'Nota salvata')
           }}
         />
-      </Sheet>
-
-      {/* SONNO */}
-      <Sheet open={active === 'sleep'} onClose={() => setActive(null)} title="Aggiungi sonno">
-        <QuickSleepForm
-          onSubmit={async (payload) => {
-            const { error } = await addSleep(payload)
-            notifyAndClose(!error, 'Sonno registrato')
-          }}
-        />
-      </Sheet>
-
-      {/* ABITUDINE */}
-      <Sheet open={active === 'habit'} onClose={() => setActive(null)} title="Completa abitudine">
-        {habits.length === 0 ? (
-          <p className="text-sm text-base-muted text-center py-6">Non hai ancora creato abitudini. Vai alla sezione Abitudini per crearne una.</p>
-        ) : (
-          <div className="space-y-2">
-            {habits.map((h) => {
-              const done = isCompletedToday(h.id)
-              return (
-                <button
-                  key={h.id}
-                  onClick={async () => {
-                    const { error } = await toggleToday(h.id)
-                    notifyAndClose(!error, done ? 'Abitudine annullata' : 'Abitudine completata')
-                  }}
-                  className="fd-card w-full flex items-center gap-3 !py-3"
-                >
-                  <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: done ? h.color : `${h.color}22`, border: `2px solid ${h.color}` }}
-                  >
-                    {done && <Check size={14} className="text-base-invertfg" strokeWidth={3} />}
-                  </div>
-                  <span className="text-sm font-medium text-base-text">{h.name}</span>
-                </button>
-              )
-            })}
-          </div>
-        )}
       </Sheet>
     </>
   )
@@ -384,58 +320,6 @@ function NoteForm({ onSubmit }: { onSubmit: (content: string) => void }) {
       />
       <button type="submit" disabled={!content.trim() || submitting} className="fd-btn-primary">
         {submitting ? 'Salvataggio...' : 'Salva nota'}
-      </button>
-    </form>
-  )
-}
-
-function QuickSleepForm({ onSubmit }: { onSubmit: (payload: { sleep_date: string; bedtime: string; wake_time: string; duration_minutes: number; quality?: number }) => void }) {
-  const [bedTime, setBedTime] = useState('23:00')
-  const [wakeTime, setWakeTime] = useState('07:00')
-  const [quality, setQuality] = useState(3)
-  const [submitting, setSubmitting] = useState(false)
-
-  return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault()
-        setSubmitting(true)
-        const today = new Date()
-        const bed = new Date(today)
-        const [bh, bm] = bedTime.split(':').map(Number)
-        bed.setHours(bh, bm, 0, 0)
-        if (bh >= 12) bed.setDate(bed.getDate() - 1)
-        const wake = new Date(today)
-        const [wh, wm] = wakeTime.split(':').map(Number)
-        wake.setHours(wh, wm, 0, 0)
-        const duration = Math.max(Math.round((wake.getTime() - bed.getTime()) / 60000), 0)
-        await onSubmit({
-          sleep_date: today.toISOString().slice(0, 10),
-          bedtime: bed.toISOString(),
-          wake_time: wake.toISOString(),
-          duration_minutes: duration,
-          quality
-        })
-        setSubmitting(false)
-      }}
-      className="space-y-4"
-    >
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="qs-bed">A letto</label>
-          <input id="qs-bed" type="time" className="fd-input" value={bedTime} onChange={(e) => setBedTime(e.target.value)} />
-        </div>
-        <div>
-          <label className="fd-label mb-1.5 block" htmlFor="qs-wake">Sveglia</label>
-          <input id="qs-wake" type="time" className="fd-input" value={wakeTime} onChange={(e) => setWakeTime(e.target.value)} />
-        </div>
-      </div>
-      <div>
-        <label className="fd-label mb-1.5 block">Qualità: {quality}/5</label>
-        <input type="range" min={1} max={5} value={quality} onChange={(e) => setQuality(Number(e.target.value))} className="w-full accent-steps" />
-      </div>
-      <button type="submit" disabled={submitting} className="fd-btn-primary">
-        {submitting ? 'Salvataggio...' : 'Salva'}
       </button>
     </form>
   )

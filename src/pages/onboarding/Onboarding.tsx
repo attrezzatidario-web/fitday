@@ -16,12 +16,6 @@ interface OnboardingData {
   units: Units
   activityLevel: ActivityLevel
   primaryGoal: PrimaryGoal
-  caloriesGoal: string
-  stepsGoal: string
-  exerciseGoal: string
-  standGoal: string
-  waterGoal: string
-  sleepGoal: string
 }
 
 const DEFAULTS: OnboardingData = {
@@ -33,16 +27,10 @@ const DEFAULTS: OnboardingData = {
   targetWeightKg: '',
   units: 'metric',
   activityLevel: 'moderate',
-  primaryGoal: 'maintain',
-  caloriesGoal: '2200',
-  stepsGoal: '10000',
-  exerciseGoal: '60',
-  standGoal: '12',
-  waterGoal: '2000',
-  sleepGoal: '8'
+  primaryGoal: 'maintain'
 }
 
-const STEPS = ['Chi sei', 'Corpo', 'Obiettivo', 'Traguardi giornalieri']
+const STEPS = ['Chi sei', 'Corpo', 'Obiettivo']
 
 export default function Onboarding() {
   const navigate = useNavigate()
@@ -83,28 +71,6 @@ export default function Onboarding() {
       return
     }
 
-    const goalRows = [
-      { user_id: user.id, goal_type: 'calories' as const, target_value: Number(data.caloriesGoal), unit: 'kcal' },
-      { user_id: user.id, goal_type: 'steps' as const, target_value: Number(data.stepsGoal), unit: 'passi' },
-      { user_id: user.id, goal_type: 'exercise_minutes' as const, target_value: Number(data.exerciseGoal), unit: 'min' },
-      { user_id: user.id, goal_type: 'stand_hours' as const, target_value: Number(data.standGoal), unit: 'ore' },
-      { user_id: user.id, goal_type: 'water_ml' as const, target_value: Number(data.waterGoal), unit: 'ml' },
-      { user_id: user.id, goal_type: 'sleep_hours' as const, target_value: Number(data.sleepGoal), unit: 'ore' }
-    ]
-    await supabase.from('goals').insert(goalRows)
-
-    await supabase.from('daily_activity').upsert(
-      {
-        user_id: user.id,
-        activity_date: new Date().toISOString().slice(0, 10),
-        move_goal: Number(data.caloriesGoal) * 0.3,
-        exercise_goal: Number(data.exerciseGoal),
-        stand_goal: Number(data.standGoal),
-        steps_goal: Number(data.stepsGoal)
-      },
-      { onConflict: 'user_id,activity_date' }
-    )
-
     await refreshProfile()
     setSaving(false)
     navigate('/', { replace: true })
@@ -139,7 +105,6 @@ export default function Onboarding() {
           {step === 0 && 'Raccontaci qualcosa di te'}
           {step === 1 && 'Dati facoltativi, modificabili in ogni momento'}
           {step === 2 && 'Cosa vuoi ottenere con FitDay?'}
-          {step === 3 && 'Puoi cambiarli quando vuoi dalla sezione Obiettivi'}
         </p>
 
         <div className="flex-1 space-y-4 animate-fade-up" key={step}>
@@ -238,37 +203,6 @@ export default function Onboarding() {
                       {label}
                     </button>
                   ))}
-                </div>
-              </div>
-            </>
-          )}
-
-          {step === 3 && (
-            <>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="fd-label mb-1.5 block" htmlFor="calGoal">Calorie (kcal)</label>
-                  <input id="calGoal" type="number" step="any" className="fd-input" value={data.caloriesGoal} onChange={(e) => set('caloriesGoal', e.target.value)} />
-                </div>
-                <div>
-                  <label className="fd-label mb-1.5 block" htmlFor="stepsGoal">Passi</label>
-                  <input id="stepsGoal" type="number" step="any" className="fd-input" value={data.stepsGoal} onChange={(e) => set('stepsGoal', e.target.value)} />
-                </div>
-                <div>
-                  <label className="fd-label mb-1.5 block" htmlFor="exGoal">Esercizio (min)</label>
-                  <input id="exGoal" type="number" step="any" className="fd-input" value={data.exerciseGoal} onChange={(e) => set('exerciseGoal', e.target.value)} />
-                </div>
-                <div>
-                  <label className="fd-label mb-1.5 block" htmlFor="standGoal">In piedi (ore)</label>
-                  <input id="standGoal" type="number" step="any" className="fd-input" value={data.standGoal} onChange={(e) => set('standGoal', e.target.value)} />
-                </div>
-                <div>
-                  <label className="fd-label mb-1.5 block" htmlFor="waterGoal">Acqua (ml)</label>
-                  <input id="waterGoal" type="number" step="any" className="fd-input" value={data.waterGoal} onChange={(e) => set('waterGoal', e.target.value)} />
-                </div>
-                <div>
-                  <label className="fd-label mb-1.5 block" htmlFor="sleepGoal">Sonno (ore)</label>
-                  <input id="sleepGoal" type="number" step="any" className="fd-input" value={data.sleepGoal} onChange={(e) => set('sleepGoal', e.target.value)} />
                 </div>
               </div>
             </>

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Home, Activity, TrendingUp, User, Plus } from 'lucide-react'
+import { Home, Dumbbell, Utensils, User, Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useQuickAdd } from '@/context/QuickAddContext'
 
@@ -11,11 +11,11 @@ export function BottomNav() {
       <div className="flex items-center justify-around px-1 py-2">
         <NavLink to="/" end className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
           <Home size={21} strokeWidth={2.2} />
-          <span className="text-[10px] font-medium text-base-text">Home</span>
+          <span className="text-[10px] font-medium">Home</span>
         </NavLink>
-        <NavLink to="/activity" className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
-          <Activity size={21} strokeWidth={2.2} />
-          <span className="text-[10px] font-medium text-base-text">Attività</span>
+        <NavLink to="/workouts" className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
+          <Dumbbell size={21} strokeWidth={2.2} />
+          <span className="text-[10px] font-medium">Allenamenti</span>
         </NavLink>
 
         <button onClick={openMenu} aria-label="Aggiungi" className="flex flex-col items-center gap-1 -mt-5">
@@ -25,13 +25,13 @@ export function BottomNav() {
           <span className="text-[10px] font-medium text-base-muted">Aggiungi</span>
         </button>
 
-        <NavLink to="/progress" className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
-          <TrendingUp size={21} strokeWidth={2.2} />
-          <span className="text-[10px] font-medium text-base-text">Progressi</span>
+        <NavLink to="/nutrition" className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
+          <Utensils size={21} strokeWidth={2.2} />
+          <span className="text-[10px] font-medium">Cibo</span>
         </NavLink>
         <NavLink to="/profile" className={({ isActive }) => cn('flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition', isActive ? 'text-base-text' : 'text-base-muted')}>
           <User size={21} strokeWidth={2.2} />
-          <span className="text-[10px] font-medium text-base-text">Profilo</span>
+          <span className="text-[10px] font-medium">Profilo</span>
         </NavLink>
       </div>
     </nav>

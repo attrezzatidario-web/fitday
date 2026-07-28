@@ -1,17 +1,14 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LogOut, Save, User as UserIcon, Scale, Moon, ListChecks, Calendar, Target, Settings as SettingsIcon, ChevronRight } from 'lucide-react'
+import { LogOut, Save, User as UserIcon, Scale, Droplets, Settings as SettingsIcon, ChevronRight } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import { supabase } from '@/lib/supabase'
 import type { ActivityLevel, PrimaryGoal, Units } from '@/types/database'
 
 const MORE_LINKS = [
-  { to: '/body', label: 'Corpo e misurazioni', icon: Scale },
-  { to: '/sleep', label: 'Sonno', icon: Moon },
-  { to: '/habits', label: 'Abitudini', icon: ListChecks },
-  { to: '/calendar', label: 'Calendario', icon: Calendar },
-  { to: '/goals', label: 'Obiettivi', icon: Target },
+  { to: '/water', label: 'Acqua', icon: Droplets },
+  { to: '/body', label: 'Peso e corpo', icon: Scale },
   { to: '/settings', label: 'Impostazioni', icon: SettingsIcon }
 ]
 
@@ -120,7 +117,7 @@ export default function Profile() {
           <button
             key={link.to}
             onClick={() => navigate(link.to)}
-            className={`w-full flex items-center gap-3 px-4 py-3.5 text-left ${i !== MORE_LINKS.length - 1 ? 'border-b border-white/[0.06]' : ''}`}
+            className={`w-full flex items-center gap-3 px-4 py-3.5 text-left ${i !== MORE_LINKS.length - 1 ? 'border-b border-base-border' : ''}`}
           >
             <link.icon size={16} className="text-base-muted" />
             <span className="text-sm flex-1 text-base-text">{link.label}</span>

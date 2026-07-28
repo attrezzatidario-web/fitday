@@ -10,16 +10,10 @@ import Register from '@/pages/auth/Register'
 import ForgotPassword from '@/pages/auth/ForgotPassword'
 import Onboarding from '@/pages/onboarding/Onboarding'
 import Dashboard from '@/pages/Dashboard'
-import ActivityPage from '@/pages/Activity'
 import Workouts from '@/pages/Workouts'
 import Nutrition from '@/pages/Nutrition'
 import Water from '@/pages/Water'
 import Body from '@/pages/Body'
-import Sleep from '@/pages/Sleep'
-import Habits from '@/pages/Habits'
-import CalendarPage from '@/pages/CalendarPage'
-import Goals from '@/pages/Goals'
-import Progress from '@/pages/Progress'
 import Profile from '@/pages/Profile'
 import Settings from '@/pages/Settings'
 
@@ -46,16 +40,10 @@ export default function App() {
             <Route element={<ProtectedRoute />}>
               <Route element={<AppLayout />}>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/activity" element={<ActivityPage />} />
                 <Route path="/workouts" element={<Workouts />} />
                 <Route path="/nutrition" element={<Nutrition />} />
                 <Route path="/water" element={<Water />} />
                 <Route path="/body" element={<Body />} />
-                <Route path="/sleep" element={<Sleep />} />
-                <Route path="/habits" element={<Habits />} />
-                <Route path="/calendar" element={<CalendarPage />} />
-                <Route path="/goals" element={<Goals />} />
-                <Route path="/progress" element={<Progress />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/settings" element={<Settings />} />
               </Route>

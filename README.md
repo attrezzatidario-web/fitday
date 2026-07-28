@@ -5,27 +5,17 @@ React + TypeScript + Vite + Tailwind CSS + Supabase. Installabile come app (PWA)
 
 ---
 
-## 1. Stato del progetto — COMPLETO
+## 1. Stato del progetto
 
-**Tutte le sezioni funzionano davvero, con CRUD reale su Supabase:**
-- Autenticazione (registrazione, login, recupero password)
-- Onboarding guidato
-- Dashboard con Activity Rings animati (cliccabili, aprono il dettaglio)
-- Attività (storico, confronti, grafici)
-- Allenamenti (creazione, storico, filtri per tipo)
-- Alimentazione (diario pasti, macronutrienti, grafico a torta)
-- Acqua (aggiunta rapida, storico, grafico orario)
-- **Corpo e misurazioni** (peso, massa grassa, circonferenze, pressione, battito, glicemia, grafici andamento)
-- **Sonno** (orari, qualità, energia al risveglio, debito di sonno, grafico settimanale)
-- **Abitudini** (streak, record personale, completamento giornaliero)
-- **Calendario mensile** (riepilogo colorato per giorno, click per aprire la giornata)
-- **Obiettivi** (editor completo per tutti i traguardi giornalieri/settimanali, con storico modifiche)
-- Progressi (andamento peso, passi, calorie, filtri per periodo)
-- Profilo e Impostazioni (con esportazione dati in JSON, menu di accesso rapido alle sezioni, **selettore tema chiaro/scuro/sistema**)
-- **Dashboard personalizzabile**: scegli quali metriche mostrare nella home tramite il pulsante "Personalizza"
-- Pulsante rapido "+" globale con 8 tipi di inserimento (pasto, acqua, allenamento, peso, passi, sonno, abitudine, nota)
-- **Analisi alimenti con IA**: scatta/carica una foto del cibo o scrivi una descrizione (es. "10 chicchi di uva") e l'intelligenza artificiale compila automaticamente nome, quantità stimata, calorie e macronutrienti — sempre modificabili prima di salvare. Se riconosce una marca, cerca i dati nutrizionali precisi sul web.
-- PWA installabile, tema chiaro/scuro/sistema, responsive mobile/tablet/desktop
+FitDay è un **diario quotidiano semplice** con quattro sezioni:
+- **Alimentazione**: diario pasti con più alimenti/bevande per pasto, macronutrienti, analisi IA da foto o testo
+- **Acqua**: aggiunta rapida, storico, grafico orario
+- **Allenamenti**: creazione, storico, filtri per tipo
+- **Peso e corpo**: peso, massa grassa, circonferenze, pressione, grafici andamento
+
+Più: Profilo, Impostazioni (tema chiaro/scuro/sistema, notifiche, esportazione dati), pulsante rapido "+" globale, PWA installabile.
+
+*(In precedenza l'app includeva anche anelli di attività, conteggio passi, sonno, abitudini, calendario e obiettivi — rimossi su richiesta per mantenere l'app semplice e focalizzata. Le relative tabelle rimangono nel database ma non sono più usate dall'interfaccia; possono essere reintrodotte in futuro se servono.)*
 
 **Database Supabase completo per tutte le 20+ tabelle**, incluse quelle non ancora sfruttate al 100% dall'interfaccia: esercizi/serie nel dettaglio allenamento, ricette, pasti salvati, achievement, notifiche.
 
